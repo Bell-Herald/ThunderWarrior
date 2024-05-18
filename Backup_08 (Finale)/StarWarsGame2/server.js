@@ -12,7 +12,7 @@ const options = {
     key: fs.readFileSync('./data/certificate/privkey.pem'),
     cert: fs.readFileSync('./data/certificate/cert.pem')
 }
-const stripe = require("stripe")("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")
+const stripe = require("stripe")("STRIPE_KEY_REMOVED") //Stripe key removed for security reasons
 const calculateOrderAmmount = (item) => {
     let purchase;
     if(item == "Small Purchase")
