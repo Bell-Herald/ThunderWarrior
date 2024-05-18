@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /iframe/
+Disallow: /test
+
+User-agent: *
+Allow /

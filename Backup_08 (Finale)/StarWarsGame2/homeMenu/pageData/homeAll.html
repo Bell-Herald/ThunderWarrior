@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta name="Keywords" content="TWG, TWG - Thunder Warrior Genesis, TWG Thunder Warrior, TWG Thunderwarrior, TWGthunderwarrior, Thunder Warrior Genesis, Thunder Warrior, Genesis, Storm Trooper, Stormtrooper, Stormtroopers, Storm Trooper Genesis, Storm Troopers Genesis, Stormtrooper Genesis, Stormtroopergenesis, Stormtroopersgenesis, Stormtroopers Genesis, Thunder, Warrior, Genesis, Thunder Warrior Gaming, Thunder Genesis, Warrior Genesis, Thunder Warrior: Genesis, Thunderwarriorgenesis, Thunder Warriors Genesis, Thunder Warriors, Storm Troopers, Warriors, Thunder Warriors Gaming, Warriors Genesis, Thunder Warriors: Genesis, Thunderwarriorsgenesis, Thunderwarrior: Genesis, Thunderwarrior Genesis, Thunder warriorgenesis,Thunderwarriors: Genesis, Thunderwarriors Genesis, Thunder warriorsgenesis">
+    <meta name="Description" content="
+Thunder Warrior: Genesis is a game that takes place in the WarStar universe and 
+follows the story of a Thunder Warrior. Thunder Warrior: Genesis is a 3D MOBA game that uses
+High Definition 3D graphics to give the best possible gaming experience. Sign up, build a character
+using your favorite attributes and begin to play! As you continue playing, you
+can equip new gear, level up your Thunder Warrior, unlock skills, and upgrade your Thunder Warrior. Every part of your Thunder Warrior, from their
+head to their guns are fully interchangable to allow for competely original and customizable
+character designs. Each of the over 1,000,000,000,000,000,000 possible Thunder Warrior desigins
+create a unique and fun gameplay.
+    ">
+    <meta name="author" content="Thunder Warrior Gaming">
+
+
+        <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+        <link rel="manifest" href="favicon/site.webmanifest">
+        <link rel="mask-icon" href="favicon/safari-pinned-tab.svg" color="#041024">
+        <link rel="shortcut icon" href="favicon/favicon.ico">
+        <meta name="msapplication-TileColor" content="#2b5797">
+        <meta name="msapplication-config" content="favicon/browserconfig.xml">
+        <meta name="theme-color" content="#041024">
+    </head>
+    <body onresize = 'setRatingSize()'>
+        <style>
+body, html, div, span, p, img, input, label, form, ol, ul, li, button, textArea  {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    color: #ffffff
+}
+.titleBackground {
+    background-image: linear-gradient(to bottom, #010309 0%, #010309a4 5%, #00000000 10%, #00000000 60%, #041024 100%),
+    url('/image/stars/jpg');
+    height: 20vw;
+    background-size: 100%;
+    background-position: 0% 10%;
+    text-align: center;
+}
+.title {
+    padding-top: 3vw;
+    font-size: 5vw;
+}
+.subtitle {
+    padding-top: 3vw;
+    font-size: 2vw;
+}
+body {
+    background-color: #041024;
+}
+
+.topBar {
+    line-height: 2.1vw;
+    z-index: 1;
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0;
+    padding: 1vw 2vw;
+    background-color: #010309;
+    overflow: hidden;
+}
+
+.submitButton {
+    display: block;
+    width: 10vw;
+    height: 3vw;
+    margin-left: auto;
+    margin-right: auto;
+    cursor: pointer;
+    border-radius: 2vw;
+    background-image: linear-gradient(to right, #05081a 0%, #1f3b6f 51%, #05081a 100%);
+    background-size: 200%;
+    background-position: right;
+    transition: all 0.75s ease-in-out;
+    color: #777777;
+}
+
+.submitButton:hover {
+    background-position: left center;
+    color: #ffffff;
+}
+
+#startGameButton {
+    margin-left: 10vw;
+    font-size: 1.5vw;
+    display: none;
+    float: top;
+    text-align: center;
+    padding-top: 0.5vw;
+    height: 2.5vw;
+}
+
+#barImage {
+    width: 3vw;
+    float: right;
+    display: none;
+}
+
+.barElement {
+    display: inline-block;
+    height: 3vw;
+}
+
+#homeIcon {
+    padding: 0 3vw;
+    float: left;
+}
+
+.dropDown {
+    z-index: 2;
+    width: 10vw;
+    height: 3vw;
+    background-color: #ff0000;
+    display: none;
+    border-radius: 1vw;
+}
+
+#barUsername {
+    margin-right: 1vw;
+    max-width: 20vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.menuDiv {
+    float: right;
+    float: top;
+    margin: 0 2vw;
+    cursor: pointer;
+    position: relative;
+}
+
+.menuDivSmall {
+    width: 3vw;
+
+}
+
+.menuLine1, .menuLine2, .menuLine3 {
+    width: 3vw;
+    height: 0.4vw;
+    display: block;
+    margin-top: 0.4vw;
+    margin-bottom: 0.5vw; 
+    background-color: #2b2355;
+    transition: 0.5s;
+}
+
+.smallerLink {
+    font-size: 1.52vw;
+    padding: 0.895vw 1vw;
+    height: 1.71vw;
+}
+
+.dropDown a:not(.smallerLink) {
+    font-size: 2vw;
+    padding: 0.5vw 1vw;
+    height: 2.5vw;
+}
+
+.dropDown a:first-child {
+    border-radius: 1vw 1vw 0 0;
+}
+
+.dropDown a:last-child {
+    border-radius: 0 0 1vw 1vw;
+}
+
+.dropDown a {
+    display: block;
+    width: 8vw;
+    text-decoration: none;
+    background-color: #030323;
+    color: #ffffff;
+}
+
+.dropDown a:hover {
+    background-color: #060650;
+}
+
+.barForm {
+    display: block;
+    float: top;
+    float: left;
+}
+
+#ratingDescription {
+    width: 16.7vw;
+    border-radius: 1vw;
+    display: none;
+    z-index: 4;
+    background-color: #041024;
+    border-color: #061845;
+    border-width: 0.2vw;
+    border-style: solid;
+    position: fixed;
+    left: 6vw;
+    top: 7.2vw;
+    white-space: normal;
+    line-height: 1vw;
+    padding:1vw 1vw 0 1vw;
+}
+
+#ratingHolder {
+    vertical-align: top;
+    font-size: 0;
+    display: inline-block;
+    height: 2.5vw;
+    width: 24vw;
+    margin-left: 3vw;
+    margin-top: 1vw;
+}
+
+#ratingHolder:hover #ratingDescription {
+    display: block;
+}
+
+#ratingDescriptionTitle {
+    font-size: 2vw;
+    text-align: center;;
+}
+
+.ratingDescriptionText {
+    font-size: 1vw;
+    text-align: center;
+}
+
+.ratingDescriptionTextLoaded::after {
+    content: ' ';
+    display: inline-block;
+    width: 100%;
+    text-align: justify;
+}
+
+.missingStarsHolder {
+    width: 0;
+    display: none;
+    position: relative;
+}
+
+.starHolder {
+    width: 10.3225806452vw;
+    height: 2vw;
+    vertical-align: top;
+    overflow: hidden;
+}
+
+.ratingStarsHolder {
+    display: inline-block;
+    position: relative;
+}
+#ratingText {
+    vertical-align: top;
+    font-size: 2vw;
+    display: inline-block;
+    margin-left: 1vw;
+}
+.ratingStars {
+    background-image: url('/image/filledStars/png');
+    background-size: cover;
+
+}
+
+.missingRatingStars {
+    background-image: url('/image/outlinedStars/png');
+    background-size: cover;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+#startGameMessageHolder {
+    vertical-align: top;
+    position: relative;
+    overflow: hidden;
+    white-space: nowrap;
+    height: 2.5vw;
+    width: 63vw;
+    margin: 1vw 0 0 0;
+    display: inline-block;
+}
+
+#startGameMessage {
+    font-size: 2vw;
+    color: #11d9ff;
+    position: absolute;
+    text-align: center;
+    -moz-transform: translateX(100%);
+    -webkit-transform: translateX(100%);
+    transform:translateX(100%);
+    -moz-animation: scroll-left 20s linear infinite;
+    -webkit-animation: scroll-left 20s linear infinite;
+    animation: scroll-left 20s linear infinite;
+}
+
+.barSignUpIn {
+    text-decoration: none;
+}
+
+.barText {
+    display: none;
+    margin: 0.5vw 2vw;
+    font-size: 2vw;
+    float: right;
+}
+
+#barBottom {
+    display: inline-block;
+    white-space: nowrap;
+    height: 3.2vw;
+}
+
+#barTitle {
+    display: block;
+    float: left;
+    color: #ffffff;
+    margin-left: 0vw;
+}
+
+#barSignUp {
+    margin-left: 0.5vw;
+    margin-right: 0.5vw;
+}
+
+#barForgot {
+    margin-left: 0.5vw;
+}
+
+#barSignIn {
+    margin-right: 0.5vw;
+}
+
+.barSlash {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.ratingLinlk {
+    color: #ffffff;
+}
+
+@-moz-keyframes scroll-left {
+    0%  {
+        -moz-transform: translateX(63vw);
+    }
+    100% {
+        -moz-transform: translateX(63vw);
+    }
+}
+
+@-webkit-keyframes scroll-left {
+    0%  {
+        -webkit-transform: translateX(63vw);
+    }
+    100% {
+        -webkit-transform: translateX(63vw);
+    }
+}
+
+@keyframes scroll-left {
+    0%  {
+        -moz-transform: translateX(63vw);
+        -webkit-transform: translateX(63vw);
+        transform: translateX(63vw);
+    }
+    100% {
+        -moz-transform: translateX(-100%);
+        -webkit-transform: translateX(-100%);
+        transform: translateX(-100%);
+    }
+}
+.messageHolder {
+    display: none;
+    margin: 0 0.5vw;    
+}
+
+#acountInfo {
+    display: none;
+    float: right;
+}
+
+#acountInfo:hover .dropDown {
+    display: block;
+    position: fixed;
+    top: 4vw;
+    right: 13vw;
+}
+
+.menuDiv:hover .menuLine1 {
+    -webkit-transform: rotate(-45deg) trasnlate(-0.8vw, 0.4vw);
+    transform: rotate(-45deg) translate(-0.8vw, 0.4vw);
+}
+
+.menuDiv:hover .menuLine2 {
+    opacity: 0;
+}
+
+.menuDiv:hover .menuLine3 {
+    -webkit-transform: rotate(45deg) trasnlate(-0.8vw, -0.52vw);
+    transform: rotate(45deg) translate(-0.8vw, -0.52vw);
+}
+
+.menuDiv:hover .dropDown {
+    display: block;
+    position: fixed;
+    top: 4vw;
+    right: 2vw;
+}
+
+#test {
+    width: 5vw;
+    height: 5vw;
+    background-color: #ff0000;
+}
+        </style>
+<div class = 'topBar'>
+    <a href = '/home'>
+        <img class = barElement id = 'homeIcon' src = '/image/helmetIcon/png'>
+        <span id = barTitle class = 'barElemen barText'>Thunder Warrior: Genesis</span>
+    </a>
+    <div id = startGameButton class = 'barElement submitButton' onclick = "startGame()">Start Game</div>
+    <div class = 'menuDiv'>
+        <div class = 'barElement menuDiv menuDivSmall'>
+            <div class = 'menuLine1'></div>
+            <div class = 'menuLine2'></div>
+            <div class = 'menuLine3'></div>
+            <div class = "dropDown">
+                <a href= '/home'>Home</a>
+                <a href= '/about'>About</a>
+                <a href= '/news'>News</a>
+                <a href= '/updates'>Updates</a>
+                <a href= '/reviews'>Reviews</a>
+                <a href= '/contact'>Contact</a>
+                <a href= '/credits'>Credits</a>
+                <a href= '/howToPlay' class = smallerLink>How To Play</a>
+                </div>
+        </div>
+    </div>
+    <div id = acountInfo>
+        <img id = barImage class = 'barElement' src = '/image/profileIcon/png'>
+        <span id = barUsername class = 'barElemen barText'></span>
+        <div class = "dropDown">
+            <a href = '/manage'>Manage</a>
+            <a href = '/confirmation'>Confirm</a>
+            <a href = '/feedback'>Feedback</a>
+            <a href = '/signOut' onclick = 'signOut()'>Sign Out</a>
+    </div>
+    </div>
+    <a id = barForgot class = 'barText barSignUpIn' href = '/forgot'>Forgot</a>
+    <span class = 'barText barSlash'>/</span>
+    <a id = barSignUp class = 'barText barSignUpIn' href = '/signUp'>Sign Up</a>
+    <span class = 'barText barSlash'>/</span>
+    <a id = barSignIn class = 'barText barSignUpIn' href = '/signIn'>Sign In</a>
+    <div id = barBottom>
+        <div id = ratingHolder>
+            <div id = ratingStarsHolder class = 'starHolder ratingStarsHolder'>
+                <div id = ratingStars class = 'starHolder ratingStars'></div>
+            </div>
+            <div id = missingStarsHolder class = 'starHolder missingStarsHolder'>
+                <div id = missingRatingStars class = 'starHolder missingRatingStars'></div>
+            </div>
+            <span id = ratingText></span>
+            <div id = ratingDescription>
+                <p id = ratingDescriptionTitle>Ratings</p>
+                <br>
+                <p id = 'ratingDescriptionHelp' class = ratingDescriptionText><br>Loading Ratings...</p>
+                <p id = ratingDescriptionSummary class = ratingDescriptionText></p>
+            </div>
+        </div>
+        <div id = 'startGameMessageHolder' class = messageHolder>
+            <span id = startGameMessage></span>
+        </div>
+    </div>
+</div>
+        <script>
+
+let rating;
+let rotateMessage = 4;
+let signOutOther = false;
+let signedIn = false;
+let tabBeenSet = false;
+let pageLoaded;
+let messageParams;
+preparePage();
+function preparePage() {
+    let newPath = setUrl();
+    window.onload = () => {
+        setPage(newPath);
+    }
+}
+
+function setUrl() {
+    let path = window.location.pathname;
+    path = path.substring(1, path.length);
+    let slashNum = path.indexOf('/');
+    let slash = slashNum != -1 ? slashNum : path.length;
+    let path1 = path.substring(0, slash);
+    let path2 = "";
+    let pathEnd = path.substring(path1.length + 1, path.length);
+    let slashNum2 = pathEnd.indexOf("/");
+    let path2End = slashNum2 != -1 ? slashNum2 : pathEnd.length;
+    if(path1.toLowerCase() == "newsarticle" && path.length > slash) {
+        path2 = "/" + pathEnd.substring(0,  path2End);
+    }
+    let newPath = "/" + path1 + path2;
+    let checkNewPath = window.location.pathname != newPath
+    if(checkNewPath) {
+        window.history.replaceState("", "", "/" + path1 + path2);
+    }
+    return checkNewPath;
+}
+
+function startGame() {
+    sessionStorage.setItem("pageLocation", document.URL);
+    sessionStorage.setItem("signOutOther", signOutOther);
+    let openedwindow = window.open("https://genesis.thunderwarrior.org", "_blank", "width=400,height=350,toolbar=0,channelmode=yes,fullscreen=yes,location=no,resizable=no");
+}
+
+function setRatingSize() {
+    let starWidth = (rating || 5) / 5 * 10.3225806452;
+    document.getElementById('ratingStarsHolder').style.width =  starWidth * window.innerWidth / 100 + 'px';
+    document.getElementById('missingStarsHolder').style.width = (10.3225806452 - starWidth) * window.innerWidth / 100 + 'px';
+}
+
+function setMessage(signedUpIn, white, messageType, message, messageFunction) {
+    if(!pageLoaded) return messageParams = Array.from(arguments);
+    messageParams = undefined;
+    if(typeof messageFunction === 'function') {
+        messageFunction();
+    }
+    if(signedUpIn != undefined && messageType != '') {
+        let username = getUsername();
+        let password = getPassword();
+        if(white == true) {
+            document.getElementById(messageType).style.color = '#ffffff';
+        }
+        if(signedUpIn == true) {
+            if(localStorage.getItem('remember') == 'true') {
+                localStorage.setItem('lastLoginUsername', username);
+                localStorage.setItem('lastLoginPassword', password);
+                sessionStorage.setItem('lastLoginUsername', username);
+                sessionStorage.setItem('lastLoginPassword', password);
+            } else {
+                sessionStorage.setItem('lastLoginUsername', username);
+                sessionStorage.setItem('lastLoginPassword', password); 
+            }
+        }
+        document.getElementById(messageType).innerText = message;
+        if(messageType == 'confirmationMessage') {
+            toggleSignUpIn(document.getElementById('confirmOption'), 'confirmation', true);
+        } else if(messageType == 'reviewMessage') {
+            toggleSignUpIn(document.getElementById('reviewOption'), 'review', true);
+        } else if(messageType == 'ratingMessage') {
+            toggleSignUpIn(document.getElementById('ratingOption'), 'rating', true);
+        } else if(messageType == 'signInMessage') {
+            toggleSignUpIn(document.getElementById('signInOption'), 'signIn', true);
+        } else if(messageType == 'forgotMessage') {
+            toggleSignUpIn(document.getElementById('forgotOption'), 'forgot', true);
+        } else if(messageType == 'informationMessage') {
+            toggleSignUpIn(document.getElementById('editInfoOption'), 'confirmation', true);
+        } else if(messageType == 'deletionCodeMessage') {
+            toggleSignUpIn(document.getElementById('deletionOption'), 'deletionCode', true);
+        } else if(messageType == 'deletionMessage') {
+            toggleSignUpIn(document.getElementById('deleteOption'), 'deletion', true);
+        } else if (messageType == 'startGameMessage') {
+            document.getElementById(messageType).style.color = '#ff0000';
+        }
+        setVisibleMessages();
+        document.getElementById("startGameMessage").style.left = 0;
+    }
+}
+
+function setVisibleMessages() {
+    let message;
+    let messageHolders = document.getElementsByClassName('messageHolder');
+    for(var i = 0; i < messageHolders.length; i ++) {
+        message = messageHolders[i].getElementsByTagName('P')[0] || messageHolders[i].getElementsByTagName('Span')[0];
+        if(message.innerText != '') {
+            messageHolders[i].style.display = 'inline-block';
+            if(message.id == 'contactMessage') {
+                document.getElementById('contactForm').scrollIntoView(true);
+                window.scrollBy(0, -document.getElementsByClassName('topBar')[0].offsetHeight * 0.8);
+            } else if(message.id != 'startGameMessage') {
+                message.scrollIntoView(false);
+            }
+        }
+    }
+}
+
+function setPage(newPath) {
+    let username;
+    let password;
+    pageLoaded = true;
+    if(typeof(Storage) === "undefined") return;
+    setTab(newPath);
+    if(messageParams != undefined) {
+        setMessage.apply(null, messageParams);
+    }
+    username = getUsername();
+    password = getPassword();
+    signedIn = username != "" && username != undefined && password != "" && password != undefined;
+    if(getLastUsername() == username && password == getLastPassword() && getLastUsername() != null && getLastUsername() != '' && getLastPassword() != null && getLastPassword != '') {
+        setLoggedInBar(username, password);
+    } else {
+        setFailedLogin(username, password)
+    }
+    setSignUpInPage(username, password);
+    setRatingStars();
+    setMessageAnimation();
+    setFirstRandomMessage();
+}
+
+function setTab(newPath) {
+    if(newPath && typeof toggleSignUpIn === "function" && localStorage.getItem("tab") != undefined && localStorage.getItem("tabElement") != undefined && document.getElementById(localStorage.getItem("tabElement")) != undefined) {
+        tabBeenSet = true;
+        toggleSignUpIn(document.getElementById(localStorage.getItem("tabElement")), localStorage.getItem("tab"));
+    }
+}
+
+function setMessageAnimation() {
+    document.getElementById('startGameMessage').addEventListener('animationiteration', function() {
+        setRandomMessage();
+    });
+}
+
+function setRatingStars() {
+    let ratings
+    let ratingCount;
+    let xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+       if(this.readyState == 4 && this.status == 200) {
+            ratings = JSON.parse(xhttp.responseText);
+            rating = Math.round(ratings.value / ratings.count * 100) / 100;
+            ratingCount = setRatingCount(ratings.count);
+            document.getElementById('ratingText').innerText = `(${rating}) ${ratingCount}`;
+            document.getElementById('ratingDescriptionHelp').innerText = `The average of ${ratingCount} ratings is ${rating}.`
+            document.getElementById('ratingDescriptionHelp').classList.add('ratingDescriptionTextLoaded');
+            if(signedIn) {
+                document.getElementById('ratingDescriptionSummary').innerHTML = 'To submit a rating, use the <a class = ratingLinlk href = /feedback>Feedback Tab<a>.'
+                document.getElementById('ratingDescriptionSummary').classList.add('ratingDescriptionTextLoaded');
+            } else {
+                document.getElementById('ratingDescriptionSummary').innerHTML = 'To submit a rating, <a class = ratingLinlk href = /signIn>Sign In<a> or <a class = ratingLinlk href = /signUp>Create an Account<a> and then use the <a class = ratingLinlk href = /feedback>Feedback Tab<a>.'
+            }
+            document.getElementById('missingStarsHolder').style.display = 'inline-block'
+            setRatingSize();
+       }
+   }
+   xhttp.open('get', 'ratings', true);
+   xhttp.send();
+}
+
+function setRatingCount(count) {
+    if(count < 1000) {
+        return count;
+    } else if(count <1000000) {
+        return Math.floor(count / 100) / 10 + 'K'
+    } else {
+        return Math.floor(count / 100000) / 10 + 'M'
+    }
+}
+
+function setLoggedInBar(username, password) {
+    let barButtons = Array.from(document.getElementsByClassName('barSlash')).concat(Array.from(document.getElementsByClassName('barSignUpIn')));
+    document.getElementById('acountInfo').style.display = 'block';
+    document.getElementById('barUsername').innerText = username;
+    document.getElementById('barUsername').style.display = 'inline-block';
+    document.getElementById('barImage').style.display = 'inline-block';
+    document.getElementById('startGameButton').style.display = 'inline-block';
+    for(var i = 0; i < barButtons.length; i ++) {
+        barButtons[i].style.display = 'none';
+    }
+
+}
+
+function setFirstRandomMessage() {
+    if(document.getElementById('startGameMessage').innerText == '') {
+        rotateMessage = 1;
+        setRandomMessage();
+    }
+}
+
+function setRandomMessage() {
+    if(rotateMessage == 1) {
+        document.getElementById('startGameMessage').style.color = '#11d9ff';
+        if(signedIn) {
+            setRandomLoggedInMessage();
+        } else {
+            setRandomLoggedOutMessage();
+        }
+    } else {
+        rotateMessage --;
+    }
+}
+
+function setRandomLoggedInMessage() {
+    let message;
+    let messageNumber = Math.floor(Math.random() * 11) + 1;
+    if(messageNumber == 1) {
+        message = 'As you level up, you will gain access to all sorts of new abilities';
+    } else if(messageNumber == 2) {
+        message = 'You can manage your account for the best experience at any time under the manage tab';
+    } else if(messageNumber == 3) {
+        message = 'Check out the most recent Updates and News in the Updates and News pages';
+    } else if(messageNumber == 4) {
+        message = 'If you have anything you want to tell us, let us know in the feedback tab';
+    } else if(messageNumber == 5) {
+        message = 'Tell your friends about Thunder Warrior: Genesis and play together';
+    } else if(messageNumber == 6) {
+        message = 'Unlike ranged weapons, melee weapons consume stamina, so use them wisely';
+    } else if(messageNumber == 7) {
+        message = 'Picking equipment and modifications that work together can make your Thunder Warrior incredibly powerful';
+    } else if(messageNumber == 8) {
+        message = 'If you ever get stuck, check out the How To Play page for advice';
+    } else if(messageNumber == 9) {
+        message = 'Overheating your weapon can be risky as you are left vulnrable for a time while it cools down';
+    } else if(messageNumber == 10) {
+        message = 'Equipping multiple pieces of equipment that belong to the same set can lead to a loadout that is very powerful in a specific area, with all of the pieces complementing one another';
+    } else {
+        message = 'Working together with your teamates is key to victory';
+    }
+    if(document.getElementById('startGameMessage').innerText == message) {
+        setRandomLoggedInMessage();
+    } else {
+        document.getElementById('startGameMessage').innerText = message;
+    }
+}
+
+function setFailedLogin(username, password) {
+    let barButtons = Array.from(document.getElementsByClassName('barSlash')).concat(Array.from(document.getElementsByClassName('barSignUpIn')));
+    for(var i = 0; i < barButtons.length; i ++) {
+        barButtons[i].style.display = 'inline';
+    }
+    setHomePage();
+}
+
+function setRandomLoggedOutMessage() {
+    let message;
+    let messageNumber = Math.floor(Math.random() * 5) + 1;
+    if(messageNumber == 1) {
+        message = 'It is time to create your Thunder Warrior and join the fight, but which side whill you choose? The Empire or the Rebellion?';
+    } else if(messageNumber == 2) {
+        message = 'You have the power to change the course of the war. It is never to late to join in and make a difference.';
+    } else if(messageNumber == 3) {
+        message = 'Experience the legendary Journey of a Thunder Warrior first hand.';
+    } else if(messageNumber == 4) {
+        message = 'Create your own personal Thunder Warrior with near limitless customization.';
+    } else {
+        message = 'Creating a new account is completely free! There is no cost whatsoever to begin your amazing Thunder Warrior jorney';
+    }
+    if(document.getElementById('startGameMessage').innerText == message) {
+        setRandomLoggedOutMessage();
+    } else {
+        document.getElementById('startGameMessage').innerText = message;
+    }
+}
+
+function setHomePage() {
+    if(typeof setHome != 'undefined') {
+        setHome()
+    }
+}
+
+function setSignUpInPage(username, password) {
+    if(typeof setSignUpIn != 'undefined') {
+        setSignUpIn(username, password);
+    }
+}
+
+function getUsername() {
+    return sessionStorage.getItem('username') || localStorage.getItem('username') || '';
+}
+
+function getLastUsername() {
+    return sessionStorage.getItem('lastLoginUsername') || localStorage.getItem('lastLoginUsername') || '';
+}
+function getLastPassword() {
+            return sessionStorage.getItem('lastLoginPassword') || localStorage.getItem('lastLoginPassword') || '';
+}
+
+function getPassword() {
+    return sessionStorage.getItem('password') || localStorage.getItem('password') || '';
+}
+
+function signOut() {
+    let sessionUsername = sessionStorage.getItem('username');
+    let sessionPassword = sessionStorage.getItem('password');
+    let localUsername = localStorage.getItem('username');
+    let localPassword = localStorage.getItem('password');
+    if(sessionUsername == localUsername && sessionPassword == localPassword) {
+        sessionStorage.clear();
+        localStorage.clear();
+    } else if(sessionUsername == null || sessionUsername == undefined) {
+        localStorage.clear();
+    } else {
+        sessionStorage.clear();
+    }
+}
+        </script>
+    </body>
+</html>

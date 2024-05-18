@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+    <body>
+        <script>
+var username = getUsername();
+var password = getPassword();
+window.onmessage = function(event) {
+    let message = event.data;
+    if(event.origin != "https://genesis.thunderwarrior.org") return;
+    if(message == "getAccount") {
+        setLastLogin();
+        window.parent.postMessage(JSON.stringify({
+            username: username, password: password,
+            pageLocation: sessionStorage.getItem("pageLocation") || "",
+            signOutOther: sessionStorage.getItem("signOutOther"),
+        }), 'https://genesis.thunderwarrior.org');
+    }
+};
+
+function getUsername() {
+    return sessionStorage.getItem('username') || localStorage.getItem('username') || '';
+}
+
+function getPassword() {
+    return sessionStorage.getItem('password') || localStorage.getItem('password') || '';
+}
+
+function setLastLogin() {
+    if(username == localStorage.getItem('username')) {
+        localStorage.setItem('lastLoginUsername', username);
+        localStorage.setItem('lastLoginPassword', password);
+        sessionStorage.setItem('lastLoginUsername', username);
+        sessionStorage.setItem('lastLoginPassword', password);
+    } else if(username == sessionStorage.getItem('username'))  {
+        sessionStorage.setItem('lastLoginUsername', username);
+        sessionStorage.setItem('lastLoginPassword', password);
+    } else {
+        localStorage.removeItem('lastLoginUsername');
+        localStorage.removeItem('lastLoginPassword');
+        sessionStorage.setItem('lastLoginUsername', username);
+        sessionStorage.setItem('lastLoginPassword', password);
+    }
+}
+    </script>
+</body>
+</html>

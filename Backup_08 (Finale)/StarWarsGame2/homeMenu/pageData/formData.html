@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+    <body>
+        <style>
+select:focus, input:focus{
+    outline: none;
+    border-color: #6a63ff;
+}
+
+.contactBox {
+    width: 39.5vw;
+    display: inline-block;
+    vertical-align: top;
+}
+
+#signUpBackground {
+    margin: 2vw auto;
+    border-radius: 2vw;
+    width: 30vw;
+    background-color: #010309;
+    line-height: 2vw;
+}
+
+.signUpInTitle {
+    text-align: center;
+    font-size: 4vw;
+}
+
+.align {
+    text-align: center;
+}
+
+.signUpInLabel {
+    display: inline-block;
+    width: 8vw;
+    padding: 1vw;
+}
+
+.signUpInLabelLarge {
+    width: 13vw;
+}
+
+.signUpInLabelThin {
+    padding: 0.25vw 1vw
+}
+
+.signUpInSlider {
+    width: 12vw;
+    height: 1vw;
+    background: #100825;
+    outline: none;
+    opacity: 0.75;
+    -webkit-transition: 0.2s;
+    -moz-transition: 0.2s;
+    -p-transition: 0.2s;
+    transition: 0.2s
+}
+
+.signUpInSlider:hover {
+    opacity: 1;
+    cursor: grab;
+}
+
+.signUpInLabelTiny {
+    display: block;
+    width: 15vw;
+    font-size: 1vw;
+    margin-top: 1vw;
+    margin-bottom: -1vw;
+    margin-left: 0.5vw;
+}
+
+.signUpInLabelSmall {
+    display: block;
+    width: 8vw;
+    font-size: 1.75vw;
+    margin-top: -1vw;
+    margin-left: 2vw;
+}
+
+.signUpInArea {
+    font-size: 1vw;
+    width: 25vw;
+    height: 40vw;
+    border-radius: 1vw;
+    padding-left: 0.75vw;
+    padding-right: 0.75vw;
+    background-color: #100825;
+    color: #ffffff;
+    margin-left: 1.5vw;
+    margin-right: 1.5vw;
+    resize: none;
+}
+
+.signUpInAreaWide {
+    width: 34vw;
+    height: 25vw;
+}
+
+.signUpInput {
+    width: 15vw;
+    border-radius: 1vw;
+    padding-left: 0.75vw;
+    padding-right: 0.75vw;
+    background-color: #100825;
+    color: #ffffff;
+}
+
+.signUpInputSmal {
+    width: 10vw;
+    height: auto;
+    border-width: 0.1vw;
+    padding: 0.1vw;
+    border-color: #2b2355;
+}
+
+.signUpInputLarge {
+    width: 25vw;
+}
+
+.signUpInputThin {
+    padding: 0.25vw 0.75vw
+}
+
+.signUpInput::-webkit-input-placeholder {
+    font-size: 2vw;
+}
+.signUpInput:-ms-input-placeholder {
+    font-size: 2vw;
+}
+
+.signUpInput::placeholder {
+    font-size: 2vw;
+}
+
+.signUpInText {
+    font-size: 2vw;
+}
+
+.signUpInTextSmall {
+    font-size: 1.25vw;
+}
+
+.signUpInTextTiny {
+    font-size: 1.05vw;
+    text-align: center;
+}
+
+.signUpDescription {
+    margin: 0 1vw;
+    text-align: justify;
+}
+.signUpInCover {
+    display: none;
+    padding: 5vw 2vw;
+    font-size: 2vw;
+    text-align: justify;
+}
+.longTitle {
+    font-size: 3vw;
+}
+
+.signUpInMessage {
+    color: #ff3333;
+    text-align: justify;
+}
+
+.longButton {
+    width: 12.5vw;
+}
+
+.extraLongButton {
+    width: 15vw;
+    font-size: 1.75vw;
+}
+
+.longButtonUnscaled {
+    width: 200px;
+    height: 40px;
+    border-radius: 200px;
+}
+
+#signUpInSelection {
+    list-style-type: none;
+    overflow: hidden;
+    background-color: #030323;
+    position: relative;
+    top: 0;
+    border-radius: 2vw 2vw 0 0
+}
+
+.signUpInOption {
+    float:left;
+    border-radius: 2vw 2vw 0 0
+}
+
+.signUpInOptionText {
+    padding: 1.5vw 0;
+    display: block;
+    text-align: center;
+    font-size: 2vw;
+    width: 10vw;
+    border-radius: 2vw 2vw 0 0
+}
+
+.signUpInOptionTextSmall {
+    font-size: 1.9vw;
+    width: 7.5vw;
+}
+
+.longSignUpInOptionText {
+    width: 15vw;
+}
+
+.signUpInOptionText:hover:not(.active) {
+    background-color: #050319;
+}
+
+.active {
+    background-color: #010309;
+}
+
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.checkBox {
+    padding: 1.5vw 0.5vw;
+    width: 1.75vw;
+    height: 1.75vw;
+}
+
+        </style>
+        <script>
+function saveAccount(remember, usernameInput, passwordInput, emailInput, temp) {
+    if(typeof(Storage) === "undefined") {
+        alert("This device does not support web storage.\nPlease upgrade to a newer version of your browser so we can locally store your account information for you to more easier acess.")
+        return;
+    }
+    if(temp == true) {
+        sessionStorage.setItem('tempUsername', document.getElementById(usernameInput).value);
+        sessionStorage.setItem('tempEmail', document.getElementById(emailInput).value);
+        sessionStorage.setItem('tempPassword', document.getElementById(passwordInput).value);
+        sessionStorage.setItem('tempRepeatedPassword', document.getElementById('repeatedPassword').value);
+    } else if(remember != undefined) {
+        let username = document.getElementById(usernameInput).value;
+        let password = document.getElementById(passwordInput).value;
+        if(username == 'speedy' || username == 'Speedy' || username == 'speed' || username == 'Speed') {
+            username = 'speedy';
+            password = 'speedyPassword'; 
+        }
+        if(remember == true) {
+            localStorage.setItem('username', username);
+            localStorage.setItem('password', password);
+            sessionStorage.setItem('username', username);
+            sessionStorage.setItem('password', password);
+            localStorage.removeItem('lastLoginUsername');
+            localStorage.removeItem('lastLoginPassword');
+            sessionStorage.removeItem('lastLoginUsername');
+            sessionStorage.removeItem('lastLoginPassword');
+            localStorage.setItem('remember', 'true');
+        } else {
+            sessionStorage.setItem('username', username);
+            sessionStorage.setItem('password', password);
+            sessionStorage.removeItem('lastLoginUsername');
+            sessionStorage.removeItem('lastLoginPassword');
+            if(username == localStorage.getItem('username') && password == localStorage.getItem('password')) {
+                localStorage.removeItem('username');
+                localStorage.removeItem('password');
+            }
+            sessionStorage.setItem('remember', 'false');
+        }
+        if(emailInput != undefined) {
+            sessionStorage.setItem('email', document.getElementById(emailInput).value);
+            sessionStorage.setItem('repeatedPassword', document.getElementById('repeatedPassword').value);
+        }
+    }
+    if(document.getElementById('gamePixelRatio') != null) {
+        sessionStorage.setItem('gamePixelRatio', document.getElementById('gamePixelRatio').selectedIndex);
+        sessionStorage.setItem('homePixelRatio', document.getElementById('homePixelRatio').selectedIndex);
+        sessionStorage.setItem('fpsSlider', document.getElementById('fpsSlider').value)
+    }
+}
+
+function toggleSignUpIn(t, tab, fromMessage) {
+    if(fromMessage && tabBeenSet) return;
+    if(! t.classList.contains('active')) {
+        let signUpInTexts = document.getElementsByClassName("signUpInOptionText");
+        let signUpInForms = document.getElementsByClassName("signUpInForm");
+        let formCovers = document.getElementsByClassName("signUpInCover");
+        let messages = document.getElementsByClassName('messageHolder');
+        for(var i = 0; i < formCovers.length; i ++) {
+            if(messages[i + 1].getElementsByTagName('P')[0].innerText != '') {
+                messages[i + 1].style.display = 'inline-block';
+            }
+            formCovers[i].style.display = 'none';
+        }
+        localStorage.setItem("tab", tab);
+        localStorage.setItem("tabElement", t.id);
+        for(var i = 0; i < signUpInTexts.length; i ++) {
+            if(signUpInTexts[i].classList.contains('active')) {
+                signUpInTexts[i].classList.remove('active');
+                signUpInForms[i].style.display = 'none';
+            } else if(t.id == signUpInTexts[i].id){
+                signUpInTexts[i].classList.add('active');
+                if(signUpInForms[i].canShow != false) {
+                    signUpInForms[i].style.display = 'block';
+                } else {
+                    formCovers[i].style.display = 'block';
+                }
+            }
+        }
+    }
+}
+
+function ensureDeletion() {
+    return confirm("Are you sure you want to permanently ban or delete this account?")
+}
+
+function saveMessage(topic, message, firstName, lastName, email, company) {
+    sessionStorage.setItem('topic', topic.value);
+    sessionStorage.setItem('message', message.value);
+    if(firstName != null && firstName != undefined) {
+        sessionStorage.setItem('messageFirstName', firstName.value);
+        sessionStorage.setItem('messageLastName', lastName.value);
+        sessionStorage.setItem('messageEmail', email.value);
+        sessionStorage.setItem('messageCompany', company.value);
+    }
+}
+
+function saveRating(that) {
+    sessionStorage.setItem('rating', that.value);
+}
+
+function clearRating() {
+    sessionStorage.removeItem('rating');
+}
+
+function clearMessage() {
+    sessionStorage.removeItem('topic');
+    sessionStorage.removeItem('message');
+    sessionStorage.removeItem('messageFirstName');
+    sessionStorage.removeItem('messageLastName');
+    sessionStorage.removeItem('messageEmail');
+    sessionStorage.removeItem('messageCompany');
+
+}
+        </script>
+    </body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TWG Home - Thunder Warrior: Genesis</title>
+    </head>
+    <body>
+        <style>
+.signUpInText {
+    font-size: 2vw;
+}
+
+.gameVideo {
+    width: 1280px;
+    height: 720px;
+    max-width: 85vw;
+    max-height: calc(720 / 1280 * 85vw); 
+
+    position: relative;   
+}
+.gameVideoContent {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+#videoPlayButton {
+    font-size: 2vw;
+    padding-top: 0.75vw;
+    text-align: center;
+    text-decoration: none;
+    display: none;
+}
+
+.gameVideoHolder {
+    position: absolute;
+    width: 96%;
+    display: flex;
+    align-items: center;
+    justify-content:center;
+}
+.bigBreak {
+    height: 720px;
+    max-height: calc(720 / 1280 * 85vw); 
+}
+        </style>
+<div class = 'titleBackground'>
+    <p class = 'title'>Welcome to Thunder Warrior: Genesis</p>
+    <p class = 'subtitle'>Battle as you follow the journey of a Thunder Warrior</p>
+</div>
+<br>
+<div class = 'pageBackground'>
+    <div class = gameVideoHolder>
+        <div class = gameVideo>
+            <video class = "gameVideo gameVideoContent"  width = 960px height = 540px autoplay muted loop poster = "/image/gameVideoPoster/png">
+                <source src = "/gameVideo" type = "video/mp4">
+            </video>
+            <img class = "gameVideo gameVideoContent" src = "/image/gameVideoBorder/png">
+        </div>
+    </div>
+    <div class = gameVideoHolder>
+        <div class = gameVideo>
+        </div>
+    </div>
+    <div class = "bigBreak"></div>
+    <br>
+    <a href = '/signIn' id = videoPlayButton class = 'submitButton signUpInText'>Play Now</a>
+    <br>
+    <p class = 'descriptionTitle'>About The Game</p>
+    <br>
+        <p class = 'descriptionText'><span class = paragraphStart></span>
+Thunder Warrior: Genesis is a game that takes place in the Warstar universe where the Empire and
+the Rebellion battle for control of the galaxy. It follows the story of a Thunder Warrior, a soldier who uses powerful
+equipment, weapons, and special abilities to crush their foes. Choose your side: defend the Empire from the Rebellion, or desert the Empire
+and join the Rebellion to take the Empire down. Thunder Warrior: Genesis is a 3D third person shooter that uses
+High Definition 3D graphics to give the best possible gaming experience. Sign up, customize your character,
+and jump into the action! As you continue playing, you can equip new gear and level up your character.
+Every part of your character, from their head to their weapons are fully interchangable to allow for
+competely original and customizable character designs, each of which build on the character's
+strength to make them more powerful than ever! Try out the 1,000,000,000,000,000+ possible character options.
+        </p>
+</div>
+<br>
+<script>
+    window.history.replaceState("", "", "/home");
+    function setHome(){
+        setNotLoggedIn();
+    }
+
+    function setNotLoggedIn() {
+        document.getElementById('videoPlayButton').style.display = 'block';
+    }
+</script>
+    </body>
+</html>

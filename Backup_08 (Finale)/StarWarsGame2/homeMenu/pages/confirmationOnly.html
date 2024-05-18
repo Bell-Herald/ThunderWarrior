@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TWG Confirmation and Deletion - Thunder Warrior: Genesis</title>
+    </head>
+    <body>
+<div class = 'titleBackground'>
+    <p class = 'title'>Confirmation and Deletion<p>
+    <p class = 'subtitle'>Confirm your Email or Remove an Unwanted Email</p><p>
+</div>
+<div id = 'signUpBackground'>
+    <ul id = signUpInSelection>
+        <li class = signUpInOption>
+            <p id = confirmOption class = 'active signUpInOptionText longSignUpInOptionText signUpInText' onclick = 'toggleSignUpIn(this, "confirmation")'>Confirm Email</p>
+        </li>
+        <li class = signUpInOption>
+            <p id = deletionOption class = 'signUpInOptionText longSignUpInOptionText signUpInText' onclick = 'toggleSignUpIn(this, "deletionCode")'>Wrong Email</p>
+        </li>
+    </ul>
+        <div class = signUpInForm>
+            <form  target="_self" method="post">
+                <br>
+                <p class = 'signUpInTitle longTitle'>Email Confirmation</p>
+                <br>    
+                <p class = 'signUpInText align'>Enter Confirmation Code</p>
+                <br>        
+                <label class = 'signUpInText signUpInLabel' for = 'code'>Code:</label>
+                <input name = 'code' id = 'code' class = 'signUpInText signUpInput' type = number placeholder = '0000000000' autocomplete = off>
+                <br>
+                <br>
+                <input name = signUpOrIn class = 'submitButton signUpInText longButton' type = submit value = ' Enter Code '>
+                <br>
+            </form>
+            <form  target="_self" method="post">
+                <br>    
+                <p class = 'signUpInText align'>Or Get a New Confirmation Code</p>
+                <br>        
+                <label class = 'signUpInText signUpInLabel' for = 'confirmUsername'>Username: </label>
+                <input name = 'username' id = 'confirmUsername' class = 'signUpInText signUpInput' maxlength = 50 type = text placeholder = 'Username' autocomplete = username>
+                <label class = 'signUpInLabelSmall' for = 'confirmUsername'>or email</label>
+                <label class = 'signUpInText signUpInLabel' for = 'confirmPassword'>Password: </label>
+                <input name = 'password' id = 'confirmPassword' class = 'signUpInText signUpInput' maxlength = 50 type = password placeholder = 'Password' autocomplete = current-password>
+                <br>
+                <br>
+                <input name = signUpOrIn class = 'submitButton signUpInText longButton' type = submit value = ' New Code '>
+                <br>
+            </form>
+            <div id = confirmationMessageBackground class = messageHolder>
+                <br>
+                <p id = "confirmationMessage" class = 'signUpInMessage signUpInTextSmall'></p>
+                <br>
+            </div>    
+        </div>
+        <div class = signUpInForm style = "display: none">
+            <form  target="_self" method="post" onsubmit = "return ensureDeletion()">
+                <br>
+                <p class = 'signUpInTitle longTitle'>Wrong Email?</p>
+                <br>
+                <p class = 'signUpInTextSmall signUpDescription'>If you did not create an accunt, then copy and paste or type the confirmation code you were sent to ban the account it is associated with and ensure that you recieve no more emails.</p>
+                <br>
+                <input type = hidden id = hiddenUsername name = username>
+                <input type = hidden id = hiddenPassword name = password>
+                <label class = 'signUpInText signUpInLabel' for = 'deletionCode'>Code:</label>
+                <input name = 'code' id = 'deletionCode' class = 'signUpInText signUpInput' type = number placeholder = '0000000000' autocomplete = off>
+                <br>
+                <br>
+                <input name = signUpOrIn class = 'submitButton signUpInText longButton' type = submit value = '   Enter Code   '>
+                <br>
+            </form>
+            <div id = deletionCodeMessageBackground class = messageHolder>
+                <br>
+                <p id = "deletionCodeMessage" class = 'signUpInMessage signUpInTextSmall'></p>
+                <br>
+            </div>    
+        </div>
+
+
+        
+    </div>
+</div>
+        <script>
+function setSignUpIn(username, password) {
+    document.getElementById('confirmUsername').value = username;
+    document.getElementById('confirmPassword').value = password;
+    document.getElementById('hiddenUsername').value = username;
+    document.getElementById('hiddenPassword').value = password;
+}        </script>
+    </body>
+</html>

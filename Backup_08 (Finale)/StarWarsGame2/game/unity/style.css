@@ -1,0 +1,162 @@
+body { padding: 0; margin: 0; overflow: hidden}
+#unity-canvas { background: #231F20; position: absolute; top: 0px; left: 0px }
+#UICanvas { position: absolute; top: 0px; left: 0px; z-index: 2}
+#loadingPage {
+  z-index: 10;
+  visibility: visible;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #111133
+}
+.loadingIcon {
+  position: absolute;
+  border: 2vmin solid #c0c0ff;
+  border-radius: 100%;
+  border-top: 2vmin solid #24a9d2;
+  width: 15vmin;
+  height: 15vmin;
+  -webkit-animation: spin 1.06s linear infinite;
+  animation: spin 1.06s linear infinite;
+  position: absolute;
+  left: calc((100vw - 19vmin) / 2);
+  top: calc((100vh - 19vmin) / 2);
+}
+.loadingIconSmall {
+  position: absolute;
+  border: 1vmin solid #c0c0ff;
+  border-radius: 100%;
+  border-top: 1vmin solid #24a9d2;
+  width: 7.5vmin;
+  height: 7.5vmin;
+  -webkit-animation: spin 4.37s linear infinite;
+  animation: spin 4.37s linear infinite;
+  position: absolute;
+  left: calc((100vw - 9.5vmin) / 2);
+  top: calc((100vh - 9.5vmin) / 2);
+  animation-direction: reverse;
+}
+#loadStatus {
+  position: absolute;
+  top: 60vh;
+  left: 0;
+  width: 100vw;
+  font-size: 4vmin;
+  text-align: center;
+  color: #ffffff;
+}
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0def); }
+  100% { -webkit-transform: rotate(360def); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+@-webkit-keyframes fluctuate {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+
+}
+
+@keyframes fluctuate {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  
+}
+*{
+  border: none;
+  padding: none;
+}
+#deathScreen {
+  visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vmin;
+}
+.overlay {
+  position: absolute;
+  top: 2.5vmin;
+  color: #ffffff;
+  width: 45vmin;
+  height: 95vmin;
+  background-color: #00000050;
+  border-radius: 4vmin;
+  font-size: 2vmin;
+  -webkit-backdrop-filter: blur(7px);
+  backdrop-filter: blur(7px);
+}
+#winOverlay {
+  visibility: hidden;
+  left: 2.5vmin;
+  z-index: 102;
+}
+#deathOverlay {
+  right: 2.5vmin;
+  z-index: 101;
+}
+
+#deathTitle {
+  font-size: 2.5vmin;
+}
+#deathText {
+  font-size: 2vmin;
+}
+.deathText {
+    padding-bottom: 1vmin;
+    padding-top: 1vmin;
+    padding-left: 1.5vmin;
+    padding-right: 1.5vmin;
+    text-align: center;
+}
+#deathRedBorder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 100;
+  -webkit-animation: fluctuate 4s linear infinite;
+  animation: fluctuate 4s linear infinite;
+}
+.overlayImageHolder {
+    width: 35vmin;
+    height: 35vmin;
+    margin-left: 4.25vmin;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 0.75vh solid #00000000;
+    border-radius: 35vmin;
+}
+.overlayImage {
+  width: 80%;
+  height: auto;
+}
+.textButton {
+  height: 1.3vmin;
+  margin-bottom: -0.15vmin;
+  border: 0.15vh solid #ffffff;
+  border-radius: 0.425vmin;
+}
+#returnButton {
+  position: absolute;
+  top: 70vh;
+  left: 42.5vw;
+  height: 5vmin;
+  width: 25vmin;
+  text-align: center;
+  background-image: linear-gradient(#3d3da3, #0b0b36);
+  border-radius: 100vmin;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #ffffff;
+  font-size: 2vmin;
+}

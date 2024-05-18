@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TWG Enlistment - Thunder Warrior: Genesis</title>
+    </head>
+    <body>
+<div class = 'titleBackground'>
+    <p class = 'title'>Enlistment<p>
+    <p class = 'subtitle'>Create a New Account and Confirm Your Email or Sign Into a Preexisting Account to Enlist Your Thunder Warrior<p>
+</div>
+<div id = 'signUpBackground'>
+    <ul id = signUpInSelection>
+        <li class = signUpInOption>
+            <p id = signUpOption class = 'active signUpInOptionText signUpInOptionTextSmall' onclick = 'toggleSignUpIn(this, "signUp")'>Sign Up</p>
+        </li>
+        <li class = signUpInOption>
+            <p id = signInOption class = 'signUpInOptionText signUpInOptionTextSmall' onclick = 'toggleSignUpIn(this, "signIn")'>Sign In</p>
+        </li>
+        <li class = signUpInOption>
+            <p id = forgotOption class = 'signUpInOptionText signUpInOptionTextSmall' onclick = 'toggleSignUpIn(this, "forgot")'>Forgot</p>
+        </li>
+        <li class = signUpInOption>
+            <p id = confirmOption class = 'signUpInOptionText signUpInOptionTextSmall' onclick = 'toggleSignUpIn(this, "confirmation")'>Confirm</p>
+        </li>
+    </ul>
+    <div class = 'signUpInCover'>
+        <p class = coverMessage></p>
+        <br>
+        <p class = coverText>You have succesfully signed in! Click Start Game above to join the gun!</p>
+    </div>
+    <form class = signUpInForm target="_self" method="post" onsubmit = "return saveAccount(rememberMeSignUp.checked, 'newUsername', 'newPassword', 'email')">
+        <br>
+        <p class = signUpInTitle>Sign Up</p>
+        <br>    
+        <label class = 'signUpInText signUpInLabel' for = 'newUsername'>Username:</label>
+        <input name = 'newUsername' id = 'newUsername' class = 'signUpInText signUpInput' maxlength = 20 type = text placeholder = 'Username' autocomplete = username>
+        <br>
+        <label class = 'signUpInText signUpInLabel' for = 'email'>Email: </label>
+        <input name = 'email' id = 'email' class = 'signUpInText signUpInput' maxlength = 99 type = text placeholder = 'email@email.com' autocomplete = email>
+        <br>
+        <label class = 'signUpInText signUpInLabel' for = 'newPassword'>Password: </label>
+        <input name = 'newPassword' id = 'newPassword' class = 'signUpInText signUpInput' maxlength = 50 type = password placeholder = 'Password' autocomplete = new-password>
+        <label class = 'signUpInLabelTiny' for = 'repeatedPassword'>Please confirm your</label>
+        <label class = 'signUpInText signUpInLabel' for = 'repeatedPassword'>Password: </label>
+        <input name = 'repeatedPassword' id = 'repeatedPassword' class = 'signUpInText signUpInput' maxlength = 50 type = password placeholder = 'Password' autocomplete = new-password>
+        <label class = 'signUpInText signUpInLabel signUpInLabelLarge signUpInLabelThin' for = 'rememberMeSignUp'>Remember Me?</label>
+        <input name = rememberMe id = rememberMeSignUp class = 'signUpInput signUpInputThin signUpInText checkBox' type = 'checkbox' checked>
+        <br>
+        <br>
+        <input name = signUpOrIn class = 'submitButton signUpInText' type = submit value = 'Sign Up'>
+        <br>
+        <p class = 'signUpInTextTiny'>By creating and account, you agree to the Thunder Warrior  <a href = '/termsAndConditions'>Terms & Conditions</a> and <a href = '/privacyPolicy'>Privacy Policy</a></p>
+        <div id = signUpMessageBackground class = messageHolder>
+            <br>
+            <p id = "signUpMessage" class = 'signUpInMessage signUpInTextSmall'></p>
+            <br>
+        </div>    
+    </form>
+    <div class = 'signUpInCover'>
+        <p class = coverMessage></p>
+            <br>
+        <p class = coverText>You have succesfully signed in! Click Start Game above to join the gun!</p>
+    </div>
+    <form class = signUpInForm target="_self" method="post" style = "display: none" onsubmit = "return saveAccount(rememberMeSignIn.checked, 'username2', 'current-password')">
+        <br>
+        <p class = signUpInTitle>Sign In</p>
+        <br>    
+        <label class = 'signUpInText signUpInLabel' for = 'username2'>Username: </label>
+        <input name = 'username' id = 'username2' class = 'signUpInText signUpInput' maxlength = 50 type = text placeholder = 'Username' autocomplete = username>
+        <label class = 'signUpInLabelSmall' for = 'username2'>or email</label>
+        <label class = 'signUpInText signUpInLabel' for = 'current-password'>Password: </label>
+        <input name = 'password' id = 'current-password' class = 'signUpInText signUpInput' maxlength = 50 type = password placeholder = 'Password' autocomplete = current-password>
+        <label class = 'signUpInText signUpInLabel signUpInLabelLarge' for = 'rememberMeSignIn'>Remember Me?</label>
+        <input name = rememberMe id = rememberMeSignIn class = 'signUpInput checkBox signUpInText' type = 'checkbox' checked>
+        <br>
+        <br>
+        <input name = signUpOrIn class = 'submitButton signUpInText' type = submit value = 'Sign In'>
+        <br>
+        <div id = signInMessageBackground class = messageHolder>
+            <br>
+            <p id = "signInMessage" class = 'signUpInMessage signUpInTextSmall'></p>
+            <br>
+        </div>
+    </form>
+
+
+
+    <div class = 'signUpInCover'>
+        <p class = coverMessage></p>
+            <br>
+        <p class = coverText>You have already signed in. If you forgot something, then how did you sign in? You can reenter to confirm or change any information you want in the <a href = /editInformation>Edit Information Tab</a>.</p>
+    </div>
+    <form class = signUpInForm target="_self" method="post" style = "display: none" onsubmit = "return saveAccount(false, 'usernameForgotten', 'passwordForgotten')">
+        <br>
+        <p class = signUpInTitle>Forgot Info</p>
+        <br>    
+        <label class = 'signUpInText signUpInLabel' for = 'username2'>Email: </label>
+        <input name = 'email' id = 'emailForgotten' class = 'signUpInText signUpInput' maxlength = 99 type = text placeholder = 'Email' autocomplete = email>
+        <br>
+        <br>
+        <input name = signUpOrIn class = 'submitButton signUpInText extraLongButton' type = submit value = 'Forgot Username'>
+        <br>
+        <input name = signUpOrIn class = 'submitButton signUpInText extraLongButton' type = submit value = 'Forgot Password'>
+        <br>
+        <label class = 'signUpInText signUpInLabel' for = 'usernameForgotten'>Username: </label>
+        <input name = 'username' id = 'usernameForgotten' class = 'signUpInText signUpInput' maxlength = 50 type = text placeholder = 'Username' autocomplete = username>
+        <label class = 'signUpInText signUpInLabel' for = 'passwordForgotten'>Password: </label>
+        <input name = 'password' id = 'passwordForgotten' class = 'signUpInText signUpInput' maxlength = 50 type = password placeholder = 'Password' autocomplete = current-password>
+        <br>
+        <br>
+        <input name = signUpOrIn class = 'submitButton signUpInText extraLongButton' type = submit value = 'Forgot Email'>
+        <br>
+        <div id = forgotMessageBackground class = messageHolder>
+            <br>
+            <p id = "forgotMessage" class = 'signUpInMessage signUpInTextSmall'></p>
+            <br>
+        </div>
+    </form>
+
+
+
+
+
+    <div class = signUpInForm style = "display: none">
+        <form  target="_self" method="post">
+            <br>
+            <p class = 'signUpInTitle longTitle'>Email Confirmation</p>
+            <br>    
+            <p class = 'signUpInText align'>Enter Confirmation Code</p>
+            <br>        
+        <label class = 'signUpInText signUpInLabel' for = 'code'>Code:</label>
+            <input name = 'code' id = 'code' class = 'signUpInText signUpInput' type = number placeholder = '0000000000' autocomplete = off>
+            <br>
+            <br>
+            <input name = signUpOrIn class = 'submitButton signUpInText longButton' type = submit value = 'Enter Code'>
+            <br>
+        </form>
+        <form  target="_self" method="post">
+            <br>    
+            <p class = 'signUpInText align'>Or Get a New Confirmation Code</p>
+            <br>        
+            <label class = 'signUpInText signUpInLabel' for = 'confirmUsername'>Username: </label>
+            <input name = 'username' id = 'confirmUsername' class = 'signUpInText signUpInput' maxlength = 50 type = text placeholder = 'Username' autocomplete = username>
+            <label class = 'signUpInLabelSmall' for = 'confirmUsername'>or email</label>
+            <label class = 'signUpInText signUpInLabel' for = 'confirmPassword'>Password: </label>
+            <input name = 'password' id = 'confirmPassword' class = 'signUpInText signUpInput' maxlength = 50 type = password placeholder = 'Password' autocomplete = current-password>
+            <br>
+            <br>
+            <input name = signUpOrIn class = 'submitButton signUpInText longButton' type = submit value = 'New Code'>
+            <br>
+        </form>
+        <div id = confirmationMessageBackground class = messageHolder>
+            <br>
+            <p id = "confirmationMessage" class = 'signUpInMessage signUpInTextSmall'></p>
+            <br>
+        </div>    
+    </div>
+</div>
+        <script>
+
+function setSignUpIn(username, password) {
+    checkSignedIn(username, password);
+    setUsernamePasswordInputs(username, password);
+    setSignUp(username, password);
+}
+
+function checkSignedIn(username, password) {
+    let signUpInForms;
+    let messages;
+    if(getLastUsername() == username && password == getLastPassword() && getLastUsername() != null && getLastUsername() != '' && getLastPassword() != null && getLastPassword != '') {
+        signUpInForms = document.getElementsByClassName('signUpInForm');
+        for(var i = 0; i < 3; i ++) {
+            signUpInForms[i].canShow = false;
+            if(document.getElementsByClassName("signUpInOptionText")[i].classList.contains('active')) {
+                messages = document.getElementsByClassName('messageHolder');
+                document.getElementsByClassName("signUpInCover")[i].style.display = 'block';
+                if(messages[i + 1].getElementsByTagName('P')[0].innerText != '') {
+                    for(e = 0; e < 2; e ++) {
+                        document.getElementsByClassName("coverMessage")[e].innerText = messages[i + 1].getElementsByTagName('P')[0].innerText;
+
+                    }
+                }
+            }
+            signUpInForms[i].style.display = 'none';
+        }
+    }
+}
+
+function setUsernamePasswordInputs(username, password) {
+    document.getElementById('username2').value = username;
+    document.getElementById('current-password').value = password;
+    document.getElementById('confirmUsername').value = username;
+    document.getElementById('confirmPassword').value = password;
+    document.getElementById('usernameForgotten').value = username;
+    document.getElementById('passwordForgotten').value = password;
+}
+
+function setSignUp(username, password) {
+    if(!(getLastUsername() == username && password == getLastPassword()) && document.getElementById('signUpMessage').innerText != '') {
+        document.getElementById('newUsername').value = username;
+        document.getElementById('newPassword').value = password;
+        document.getElementById('repeatedPassword').value = sessionStorage.getItem('repeatedPassword');
+        document.getElementById('email').value = sessionStorage.getItem('email') || "";
+    }
+}
+        </script>
+    </body>
+</html>

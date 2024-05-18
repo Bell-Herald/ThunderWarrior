@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <script>
+            setMessage(false, true, 'manageMessage', 'You have Succesfully changed your prefrences!', 
+            function() {
+                sessionStorage.removeItem('gamePixelRatio');
+                sessionStorage.removeItem('homePixelRatio');
+                sessionStorage.removeItem('fpsSlider');
+            });
+        </script>
+    </body>
+</html>

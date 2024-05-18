@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TWG Feedback - Thunder Warrior: Genesis</title>
+    </head>
+    <body>
+<div class = 'titleBackground'>
+    <p class = 'title'>Feedback and Reviews<p>
+    <p class = 'subtitle'>Tell Us or the World Your Opinions</p><p>
+</div>                
+<div id = 'signUpBackground'>
+    <ul id = signUpInSelection>
+        <li class = signUpInOption>
+            <p id = messageOption class = 'active signUpInOptionText signUpInText' onclick = 'toggleSignUpIn(this, "message")'>Feedback</p>
+        </li>
+        <li class = signUpInOption>
+            <p id = reviewOption class = 'signUpInOptionText signUpInText' onclick = 'toggleSignUpIn(this, "review")'>Review</p>
+        </li>
+        <li class = signUpInOption>
+            <p id = ratingOption class = 'signUpInOptionText signUpInText' onclick = 'toggleSignUpIn(this, "rating")'>Rating</p>
+        </li>
+    </ul>
+    <form class = signUpInForm target="_self" method="post" onsubmit = "return saveMessage(topic, message)">
+        <input name = 'username' id = 'feedbackUsername' type = 'hidden'>
+        <input name = 'password' id = 'feedbackPassword' type = 'hidden'>
+        <br>
+        <p class = signUpInTitle>Feedback</p>
+        <br>    
+        <p class = 'signUpInTextSmall align'>Leave a message for the creators of Thunder Warrior: Genesis. Some examples of messages are that you do or don't like something in the game, that you found a bug or other mistake, or that you have some ideas for the future.</p>
+        <br>
+        <label class = 'signUpInText signUpInLabel' for = 'topic'>Topic:</label>
+        <input name = 'topic' id = 'topic' class = 'signUpInText signUpInput' maxlength = 50 type = text placeholder = 'Topic'>
+        <br>
+        <label class = 'signUpInText signUpInLabel' for = 'message'>Message: </label>
+        <br>
+        <textarea name = 'message' id = 'message' class = 'signUpInArea' maxlength = 10000 type = text placeholder = 'Your Message' autocomplete = email></textarea>
+        <br>
+        <br>
+        <input name = signUpOrIn class = 'submitButton signUpInText extraLongButton' type = submit value = 'Send Feedback'>
+        <br>
+        <div id = feedbackMessageBackground class = messageHolder>
+            <br>
+            <p id = "feedbackMessage" class = 'signUpInMessage signUpInTextSmall'></p>
+            <br>
+        </div>    
+    </form>
+    <form class = signUpInForm target="_self" method="post" onsubmit = "saveMessage(title, review)" style = 'display: none'>
+        <input name = 'username' id = 'reviewUsername' type = 'hidden'>
+        <input name = 'password' id = 'reviewPassword' type = 'hidden'>
+        <br>
+        <p class = signUpInTitle>Leave a Review</p>
+        <br>    
+        <p class = 'signUpInTextSmall align'>Submit/Update or Delete a Review.</p>
+        <br>
+        <label class = 'signUpInText signUpInLabel' for = 'title'>Title:</label>
+        <input name = 'title' id = 'title' class = 'signUpInText signUpInput' maxlength = 50 type = text placeholder = 'Title'>
+        <br>
+        <label class = 'signUpInText signUpInLabel' for = 'review'>Review: </label>
+        <br>
+        <textarea name = 'message' id = 'review' class = 'signUpInArea' maxlength = 1000 type = text placeholder = 'Your Message' autocomplete = email></textarea>
+        <br>
+        <br>
+        <input name = signUpOrIn class = 'submitButton signUpInText extraLongButton' type = submit value = 'Leave Review'>
+        <br>
+        <input name = signUpOrIn class = 'submitButton signUpInText extraLongButton' type = submit value = 'Delete Review'>
+        <br>
+        
+        <div id = reviewMessageBackground class = messageHolder>
+            <br>
+            <p id = "reviewMessage" class = 'signUpInMessage signUpInTextSmall'></p>
+            <br>
+        </div>    
+    </form>
+    <form class = signUpInForm target="_self" method="post" onsubmit = "saveRating(rating)" style = 'display: none'>
+        <input name = 'username' id = 'ratingUsername' type = 'hidden'>
+        <input name = 'password' id = 'ratingPassword' type = 'hidden'>
+        <br>
+        <p class = signUpInTitle>Rate the Game</p>
+        <br>    
+        <p class = 'signUpInTextSmall align'>Submit/Update or Delete a Rating</p>
+        <br>
+        <label id = ratingLabel class = 'signUpInText signUpInLabel signUpInLabelLarge' for = 'rating'>Rating: 5</label>
+        <input id = 'rating' class = 'signUpInSlider' name = rating value = 5 type = range min = 0 max = 5 step = 0.5 oninput = "displayRating(this)" >
+        <br>
+        <input name = signUpOrIn class = 'submitButton signUpInText' type = submit value = 'Rate'>
+        <br>     
+        <input name = signUpOrIn class = 'submitButton signUpInText' type = submit value = ' Delete '>
+        <br>
+        <div id = ratingMessageBackground class = messageHolder>
+            <br>
+            <p id = "ratingMessage" class = 'signUpInMessage signUpInTextSmall'></p>
+            <br>
+        </div>
+    </form>
+</div>
+        <script>
+function setSignUpIn(username, password) {
+    setInputs(username, password);
+    displayRating(document.getElementById('rating'));
+}
+
+function setInputs(username, password) {
+    document.getElementById('feedbackUsername').value = username;
+    document.getElementById('feedbackPassword').value = password;
+    document.getElementById('reviewUsername').value = username;
+    document.getElementById('reviewPassword').value = password;
+    document.getElementById('ratingUsername').value = username;
+    document.getElementById('ratingPassword').value = password;
+    document.getElementById('topic').value = sessionStorage.getItem('topic') || '';
+    document.getElementById('message').value = sessionStorage.getItem('message') || '';
+    document.getElementById('title').value = sessionStorage.getItem('topic') || '';
+    document.getElementById('review').value = sessionStorage.getItem('message') || '';
+    document.getElementById('rating').value = sessionStorage.getItem('rating') || 5;
+}        
+
+function displayRating(that) {
+    document.getElementById('ratingLabel').innerText = 'Rating: ' + that.value
+}
+        </script>
+    </body>
+</html>

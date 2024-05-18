@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TWG News - Thunder Warrior: Genesis</title>
+    </head>
+    <body>
+        <style>
+.headerImage {
+    width: 100%;
+    height: auto;
+}
+
+.smallTitle {
+    font-size: 4vw;
+}
+        </style>
+<div class = 'titleBackground'>
+    <p id = articleTitle class = 'title titleText'>News Article Title<p>
+    <p class = 'subtitle'>Thunder Warrior: Genesis Updates and News</p><p>
+</div>
+<img id = 'articleImage' class = headerImage>
+<div class = 'pageBackground' id = 'newsBackground'>
+</div>
+        <script>
+function setSignUpIn() {
+    if(document.getElementById('articleTitle').offsetHeight > window.innerWidth / 10) {
+        document.getElementById('articleTitle').classList.add('smallTitle');
+    }    
+} 
+function setArticle(title, image, pageSsrc) {
+    document.getElementById('articleTitle').innerText = title + " - News - TWG - Thunder Warrior Genesis"|| "News - TWG - Thunder Warrior Genesis";
+    document.title = title || "News";
+    document.getElementById('articleImage').src = '/newsImage/' + image;
+}
+function newSection(title, text) {
+    let section = document.createElement('DIV');
+    let sectionTitle = document.createElement('P');
+    let brHeader = document.createElement('BR');
+    let sectionText = document.createElement('P');
+    let sectionTab = document.createElement('SPAN');
+    section.classList.add('section');
+    sectionTitle.classList.add('descriptionTitle');
+    sectionText.classList.add('descriptionText');
+    sectionTab.classList.add('paragraphStart');
+    sectionText.innerText = text;
+    sectionTitle.innerText = title;
+    document.getElementById('newsBackground').appendChild(section);
+    section.appendChild(sectionTitle);
+    section.appendChild(brHeader);
+    section.appendChild(sectionText);
+    sectionText.prepend(sectionTab);
+
+
+
+}
+        </script>
+
+    </body>
+</html>

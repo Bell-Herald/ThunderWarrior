@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TWG Contact - Thunder Warrior: Genesis</title>
+    </head>
+    <body>
+        <style>
+            .contactText {
+                margin: 0 7vw 0 1vw;
+                text-align: center;
+            }
+        </style>
+<div class = 'titleBackground'>
+    <p class = 'title'>Contact<p>
+    <p class = 'subtitle'>Contact the Creators of Thunder Warrior: Genesis</p><p>
+</div>
+<br>
+<div class = 'pageBackground'>
+    <div class = section>
+        <p class = 'descriptionTitle'>How it Works</p>
+        <br>
+        <p class = 'descriptionText'><span class = paragraphStart></span>
+            You can use the contact page to send us a message. Fill out the information in the form and enter your message.
+            <span style = 'font-weight: 1000; color: #ff0000'>Warning: Any message sent here will be treated with a low priority.</span>
+            To send high priority messages to us, create an account if you do not already have one to gain access to the feedback tab and send us a message through there.
+        </p>
+    </div>
+    <section>
+    <p class = 'descriptionTitle' id = 'contactForm'>Contact Form</p>
+        <div id = 'signUpBackground' style = 'width: 80vw'>
+            <form class = signUpInForm target="_self" method="post" onsubmit = "saveMessage(topic, message, firstName, lastName, email, company)">
+                <div class = contactBox>
+                    <label class = 'signUpInText signUpInLabel signUpInLabelLarge' for = 'firstName'>First Name:</label>
+                    <input name = 'firstName' id = 'firstName' class = 'signUpInText signUpInput' maxlength = 50 type = text placeholder = 'Topic'>
+                    <label class = 'signUpInText signUpInLabel signUpInLabelLarge' for = 'lastName'>Last Name:</label>
+                    <input name = 'lastName' id = 'lastName' class = 'signUpInText signUpInput' maxlength = 50 type = text placeholder = 'Topic'>
+                    <label class = 'signUpInText signUpInLabel signUpInLabelLarge' for = 'email'>Email:</label>
+                    <input name = 'email' id = 'email' class = 'signUpInText signUpInput' maxlength = 50 type = text placeholder = 'Topic'>
+                    <label class = 'signUpInLabelTiny' for = 'company'>If Applicable</label>
+                    <label class = 'signUpInText signUpInLabel signUpInLabelLarge' for = 'company'>Company:</label>
+                    <input name = 'company' id = 'company' class = 'signUpInText signUpInput' maxlength = 50 type = text placeholder = 'Topic'>
+                    <br>
+                    <br>
+                    <p class = 'signUpInTextSmall contactText'>By contacting us, you agree to the Thunder Warrior: Genesis <a href = '/termsAndConditions'>Terms & Conditions</a> and <a href = '/privacyPolicy'>Privacy Policy</a></p>
+                    <br>
+                    <div id = contactMessageBackground class = 'messageHolder contactText'>
+                        <br>
+                        <p id = "contactMessage" class = 'signUpInMessage signUpInTextSmall'></p>
+                        <br>
+                    </div>        
+                </div>
+                <div class = contactBox>
+                    <label class = 'signUpInText signUpInLabel' for = 'topic'>Topic:</label>
+                    <input name = 'topic' id = 'topic' class = 'signUpInText signUpInput signUpInputLarge' maxlength = 50 type = text placeholder = 'Topic'>
+                    <br>
+                    <label class = 'signUpInText signUpInLabel' for = 'message'>Message: </label>
+                    <br>
+                    <textarea name = 'message' id = 'message' class = 'signUpInArea signUpInAreaWide' maxlength = 10000 type = text placeholder = 'Your Message' autocomplete = email></textarea>
+                </div>
+                <br>
+                <br>
+                <input name = signUpOrIn class = 'submitButton signUpInText extraLongButton' type = submit value = 'Send Message'>
+                <br>
+            </form>
+        </div>
+    </section>
+</div>
+        <script>
+function setSignUpIn() {
+    document.getElementById('topic').value = sessionStorage.getItem('topic') || '';
+    document.getElementById('message').value = sessionStorage.getItem('message') || '';
+    document.getElementById('firstName').value = sessionStorage.getItem('messageFirstName') || '';
+    document.getElementById('lastName').value = sessionStorage.getItem('messageLastName') || '';
+    document.getElementById('email').value = sessionStorage.getItem('messageEmail') || '';
+    document.getElementById('company').value = sessionStorage.getItem('messageCompany') || '';
+
+}
+        </script>
+    </body>
+</html>

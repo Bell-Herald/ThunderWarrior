@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TWG Reviews - Thunder Warrior: Genesis</title>
+    </head>
+    <body>
+        <style>
+            #reviewList {
+                display: flex;
+                justify-content: center;
+                flex-wrap: wrap;
+                overflow: hidden;
+                width: 70vw;
+                margin: auto;
+            }
+            .reviewBackground {
+                position: inline-block;
+                padding-top: 10px;
+                margin: 10px 20px 40px 20px;
+                width: 400px;
+                overflow: hidden;
+               /* background-color: #84a0c4;*/
+                background-color: #300926;
+                border-radius: 20px;
+                height: 0%;
+                flex-shrink: 0;
+            }
+            .reviewBackground:hover .reviewTextbox {
+                height: auto;
+                min-height: 105px;
+
+            }
+            .reviewBackground:hover .reviewTitle {
+                white-space:normal;
+            }
+            .reviewUsername {
+                margin: 0px 15px 0 10px; 
+                display: inline-block;
+                text-align: center;
+                font-size: 17.5px;
+                width: 280px;
+                line-height: 17.5px;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
+            .reviewTextbox {
+                padding: 10px;
+                margin-bottom: 5px;
+                text-align: justify;
+                display: block;
+                height: 105px;
+                overflow: hidden;
+                text-overflow: clip;
+            }
+            .reviewTitle {
+                padding-left: 10px;
+                padding-right: 10px;
+                margin-bottom: 5px;
+                font-size: 20px;
+                text-align: center;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
+            .reviewText {
+                font-size: 15px;
+            }
+
+            .reviewStars {
+                width: 70px;
+                height: 13.56px;
+                overflow: hidden;
+            }
+            
+        </style>
+<div class = 'titleBackground'>
+    <p class = 'title'>Reviews<p>
+    <p class = 'subtitle'>See What Others Think of Thuner Warrior: Genesis</p><p>
+</div>
+<div class = pageBackground>
+    <div class = section>
+        <p class = 'descriptionTitle'>Leaving a Review</p>
+        <br>
+        <p class = 'descriptionText'><span class = paragraphStart></span>
+            To leave a review, visit the <a href = "/review">Feedback Tab</a> once signed in. When you enter the review, it will appear for users here. It will present your username next to your rating if you have entered one, as well as the title and message you enter. Do not enter any personal information. There may be a delay before it's apearence.
+        </p>
+    </div>
+    <div class = section>
+        <p class = 'descriptionTitle'>Viewing the Reviews</p>
+        <br>
+        <p class = 'descriptionText'><span class = paragraphStart></span>
+            Hover over a review to see the whole review. The number of stars is the rating they gave us. If no stars are visible, as oposed to all empty stars, then they did not give us a rating. If you would like to report a review and are signed in, use the <a href = '/feedback'>Feedback Tab</a>; otherwise, use the <a href = '/contact'>Contact page</a>.
+        </p>
+    </div>
+    <br>
+    <div id = reviewList></div>
+    <button id = moreButton class = 'submitButton longButtonUnscaled' onclick = loadReviews(reviews,true)>CLick To View More Reviews</button>
+</div>
+    </body>
+    <script>
+        let reviews;
+        function setSignUpIn() {
+            let xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if(this.readyState == 4 && this.status == 200) {
+                    reviews = JSON.parse(xhttp.responseText);
+                    loadReviews(reviews, false);
+                }
+            }
+            xhttp.open('get', 'reviewList', true)
+            xhttp.send();
+        }
+
+        function loadReviews(reviews, scroll) {
+            let reviewList = document.getElementById('reviewList');
+            let currentReviews = document.getElementsByClassName('reviewBackground').length;
+            for(var i = currentReviews; i < Math.min(currentReviews + 10, reviews.length); i ++) {
+                let reviewBackground = document.createElement("DIV");
+                let reviewUsername = document.createElement("P");
+                let reviewStarsHolder = document.createElement("DIV");
+                let reviewStars = document.createElement("DIV");
+                let missingStarsHolder = document.createElement("DIV");
+                let missingStars = document.createElement("DIV");
+                let textBox = document.createElement("DIV");     
+                let reviewTitle = document.createElement("P");      
+                let reviewText = document.createElement("P"); 
+                reviewBackground.classList.add('reviewBackground');
+                reviewUsername.classList.add('reviewUsername');
+                reviewStarsHolder.classList.add('ratingStarsHolder', 'reviewStars');
+                reviewStars.classList.add('ratingStars', 'reviewStars');
+                missingStarsHolder.classList.add('missingStarsHolder', 'reviewStars');
+                missingStars.classList.add('missingRatingStars', 'reviewStars');
+                textBox.classList.add('reviewTextbox');
+                reviewTitle.classList.add('reviewTitle');
+                reviewText.classList.add('reviewText');    
+                reviewUsername.innerText = reviews[i].username;
+                reviewTitle.innerText = reviews[i].title;
+                reviewText.innerText = reviews[i].message;
+                reviewList.appendChild(reviewBackground);
+                reviewBackground.appendChild(reviewUsername);
+                reviewBackground.appendChild(reviewStarsHolder);
+                reviewBackground.appendChild(missingStarsHolder);
+                reviewBackground.appendChild(textBox);
+                reviewStarsHolder.appendChild(reviewStars);
+                missingStarsHolder.appendChild(missingStars);
+                textBox.appendChild(reviewTitle);
+                textBox.appendChild(reviewText);
+                setRating(reviews[i], reviewStarsHolder, missingStarsHolder);
+            }
+            if(scroll == true) {
+                document.getElementsByClassName('reviewBackground')[currentReviews].scrollIntoView(true);
+                window.scrollBy(0, -document.getElementsByClassName('topBar')[0].offsetHeight -10);
+                if(document.getElementsByClassName('reviewBackground').length == reviews.length) {
+                    document.getElementById('moreButton').style.display = 'none';
+                }
+            }
+        }
+
+        function setRating(review, reviewStarsHolder, missingStarsHolder) {
+            if(review.rating == undefined || review.rating == 'none') {
+                reviewStarsHolder.style.width =  0;
+                missingStarsHolder.style.width = 0;
+            } else {
+                reviewStarsHolder.style.width =  review.rating / 5 * 70 + 'px';
+                missingStarsHolder.style.width = 70 - (review.rating / 5 * 70) + 'px';
+            }
+
+        }
+    </script>
+</html>

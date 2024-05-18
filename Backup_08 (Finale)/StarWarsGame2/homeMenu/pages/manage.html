@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TWG Management - Thunder Warrior: Genesis</title>
+    </head>
+    <body>
+        <style></style>
+        <div class = 'titleBackground'>
+            <p class = 'title'>Management<p>
+            <p class = 'subtitle'>Customize your Account</p><p>
+        </div>                
+        <div id = 'signUpBackground'>
+            <ul id = signUpInSelection>
+                <li class = signUpInOption>
+                    <p id = manageOption class = 'active signUpInOptionText signUpInText' onclick = 'toggleSignUpIn(this, "manageAccount")'>Preferences</p>
+                </li>
+                <li class = signUpInOption>
+                    <p id = editInfoOption class = 'signUpInOptionText signUpInText' onclick = 'toggleSignUpIn(this, "editInformation")'>Information</p>
+                </li>
+                <li class = signUpInOption>
+                    <p id = deleteOption class = 'signUpInOptionText signUpInText' onclick = 'toggleSignUpIn(this, "deletion")'>Delete</p>
+                </li>
+            </ul>
+            <form class = signUpInForm target="_self" method="post" onsubmit = "saveAccount()">
+                <input type = hidden id = usernameForManagement name = username>
+                <input type = hidden id = passwordForManagement name = password>
+                <br>
+                <p class = 'signUpInTitle longTitle'>Update Preferences</p>
+                <br>
+                <p id = pixelRatioSuggestion class = 'signUpInTextSmall signUpDescription'></p>
+                <br>
+                <label class = 'signUpInText signUpInLabel signUpInLabelLarge' for = 'gamePixelRatio'>Game Quality:</label>
+                <select id = 'gamePixelRatio' name = 'gamePixelRatio' class = 'signUpInText signUpInput signUpInputSmal' value = 2>
+                    <option value =0.125>6%</option>
+                    <option value =0.25>12%</option>
+                    <option value =0.5>25%</option>
+                    <option value =1>50%</option>
+                    <option value =2 selected="selected" >100%</option>
+                    <option value =3>150%</option>
+                    <option value =4>200%</option>
+                    <option value =5>250%</option>
+                    <option value =6>300%</option>
+                    <option value =7>350%</option>
+                    <option value =8>400%</option>
+                    <option value =9>450%</option>
+                    <option value =10>500%</option>
+                    <option value =15>750%</option>
+                    <option value =30>1000%</option>
+                </select>
+        
+                <label class = 'signUpInText signUpInLabel signUpInLabelLarge' for = 'homePixelRatio'>Menu Quality:</label>
+                <select  id = 'homePixelRatio' name = 'homePixelRatio' class = 'signUpInText signUpInput signUpInputSmal'>
+                    <option value =0.125>6%</option>
+                    <option value =0.25>12%</option>
+                    <option value =0.5>25%</option>
+                    <option value =1>50%</option>
+                    <option value =2 selected="selected" >100%</option>
+                    <option value =3>150%</option>
+                    <option value =4>200%</option>
+                    <option value =5>250%</option>
+                    <option value =6>300%</option>
+                    <option value =7>350%</option>
+                    <option value =8>400%</option>
+                    <option value =9>450%</option>
+                    <option value =10>500%</option>
+                    <option value =15>750%</option>
+                    <option value =30>1000%</option>
+                </select>    
+                <label id = fpsLabel class = 'signUpInText signUpInLabel signUpInLabelLarge' for = 'fps'>Max FPS: 60</label>
+                <input id = 'fpsSlider' class = 'signUpInSlider' name = fps value = 60 type = range min = 1 max = 120 oninput = "displayInputFPS(this)" >
+                <br>
+                <input name = signUpOrIn class = 'submitButton signUpInText' type = submit value = 'Manage'>
+                <br>
+                <div id = manageMessageBackground class = messageHolder>
+                    <br>
+                    <p id = "manageMessage" class = 'signUpInMessage signUpInTextSmall'></p>
+                    <br>
+                </div>    
+            </form>
+            <form class = signUpInForm target="_self" method="post" style = "display: none" onsubmit = "saveAccount('', 'newUsername', 'newPassword', 'email', true)">
+                <input type = hidden id = hiddenUsername name = username>
+                <input type = hidden id = hiddenPassword name = password>
+                <br>
+                <p class = 'signUpInTitle longTitle'>Edit information</p>                    <br>
+
+                <p class = 'signUpInTextSmall align'>Only fill in the areas you wish to update, leave the areas you wish to remain the same as blank. Use must enter both password inputs if you wish to change the password</p>
+                <br>
+                <label class = 'signUpInText signUpInLabel' for = 'newUsername'>Username:</label>
+                <input name = 'newUsername' id = 'newUsername' class = 'signUpInText signUpInput' maxlength = 20 type = text placeholder = 'Username' autocomplete = username>
+                <br>
+                <label class = 'signUpInText signUpInLabel' for = 'email'>Email: </label>
+                <input name = 'email' id = 'email' class = 'signUpInText signUpInput' maxlength = 99 type = text placeholder = 'email@email.com' autocomplete = email>
+                <br>
+                <label class = 'signUpInText signUpInLabel' for = 'newPassword'>Password: </label>
+                <input name = 'newPassword' id = 'newPassword' class = 'signUpInText signUpInput' maxlength = 50 type = password placeholder = 'Password' autocomplete = new-password>
+                <label class = 'signUpInLabelTiny' for = 'repeatedPassword'>Please confirm your</label>
+                <label class = 'signUpInText signUpInLabel' for = 'repeatedPassword'>Password: </label>
+                <input name = 'repeatedPassword' id = 'repeatedPassword' class = 'signUpInText signUpInput' maxlength = 50 type = password placeholder = 'Password' autocomplete = new-password>
+                <br>
+                <input name = signUpOrIn class = 'submitButton signUpInText extraLongButton' type = submit value = 'Confirm Changes'>
+                <br>
+                <div id = informationMessageBackground class = messageHolder>
+                    <br>
+                    <p id = "informationMessage" class = 'signUpInMessage signUpInTextSmall'></p>
+                    <br>
+                </div>
+            </form>
+            <div class = signUpInForm style = "display: none">
+                <form  target="_self" method="post" onsubmit = "return ensureDeletion()">
+                    <br>
+                    <p class = 'signUpInTitle longTitle'>Delete Account</p>
+                    <br>
+                    <p class = 'signUpInTextSmall align'>This change is permanent and cannot be undone.<br>Proceed with Caution.</p>
+                    <input type = hidden id = hiddenUsernameDeletion name = username>
+                    <input type = hidden id = hiddenPasswordDeletion name = password>    
+                    <br>    
+                    <br>
+                    <input name = signUpOrIn class = 'submitButton signUpInText longButton' type = submit value = 'Delete'>
+                    <br>
+                </form>
+                <div id = deletionMessageBackground class = messageHolder>
+                    <br>
+                    <p id = "deletionMessage" class = 'signUpInMessage signUpInTextSmall'></p>
+                    <br>
+                </div>    
+            </div>
+        </div>
+
+
+
+        <script>
+function setSignUpIn(username, password) {
+    setPixelRatioSuggestion();
+    setSignUp(username, password);
+}
+
+function setSignUp(username, password) {
+    document.getElementById('usernameForManagement').value = username;
+    document.getElementById('passwordForManagement').value = password;
+    document.getElementById('hiddenUsername').value = username;
+    document.getElementById('hiddenPassword').value = password;
+    document.getElementById('hiddenUsernameDeletion').value = username;
+    document.getElementById('hiddenPasswordDeletion').value = password;
+    document.getElementById('newUsername').value = sessionStorage.getItem('tempUsername') || '';
+    document.getElementById('newPassword').value = sessionStorage.getItem('tempPassword') || '';
+    document.getElementById('email').value = sessionStorage.getItem('tempEmail') || '';
+    document.getElementById('repeatedPassword').value = sessionStorage.getItem('tempRepeatedPassword') || '';
+    document.getElementById('gamePixelRatio').selectedIndex = sessionStorage.getItem('gamePixelRatio') || 4;
+    document.getElementById('homePixelRatio').selectedIndex = sessionStorage.getItem('homePixelRatio') || 4;
+    document.getElementById('fpsSlider').value = sessionStorage.getItem('fpsSlider') || 60;
+    displayInputFPS(document.getElementById('fpsSlider'));
+}
+
+function setUsernamePasswordInputs(username, password) {
+    document.getElementById('usernameForManagement').value = username;
+    document.getElementById('passwordForManagement').value = password;
+}
+
+
+function setPixelRatioSuggestion() {
+    document.getElementById('pixelRatioSuggestion').innerText = `For your Device, we reccomend ${window.devicePixelRatio * 50}% game quality and  ${(window.devicePixelRatio + 2) * 50}% menu quality, as well as 60 fps. Decreasing these numbers will decrease how well the game looks, but may allow it to reun smoother and with less lag`
+}
+
+function displayInputFPS(that) {
+    document.getElementById('fpsLabel').innerText = 'Max FPS: ' + that.value
+}
+
+function updateAccount() {
+    let username = sessionStorage.getItem('tempUsername') || sessionStorage.getItem('username') || localStorage.getItem('username');
+    let email = sessionStorage.getItem('tempEmail') || sessionStorage.getItem('email') || localStorage.getItem('email');
+    let password = sessionStorage.getItem('tempPassword') || sessionStorage.getItem('password') || localStorage.getItem('password');
+    if(localStorage.getItem('remember') == "true" || localStorage.getItem('remember') == true) {
+        localStorage.setItem('username', username);
+        localStorage.setItem('password', password);
+        localStorage.setItem('lastLoginUsername', username);
+        localStorage.setItem('lastLoginPassword', password);
+    }
+    sessionStorage.setItem('username', username);
+    sessionStorage.setItem('password', password);
+    sessionStorage.setItem('lastLoginUsername', username);
+    sessionStorage.setItem('lastLoginPassword', password);
+    sessionStorage.removeItem('tempPassword');
+    sessionStorage.removeItem('tempEmail');
+    sessionStorage.removeItem('tempUsername');
+    sessionStorage.removeItem('tempRepeatedPassword');
+    setPage();
+}
+
+
+        </script>
+
+
+
+
+
+
+
+
+
+    </body>
+</html>

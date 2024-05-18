@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>TWG Game - Thunder Warrior: Genesis</title>
+    <link rel="stylesheet" href="unity/style.css">
+  </head>
+  <body onresize = "if(typeof resizeCanvas === 'function' && qualityZoom != undefined) {resizeCanvas()}">
+    <style>
+
+    </style>
+    <div id = "loadingPage">
+      <div class =' loadingIcon'></div>
+      <div class = loadingIconSmall></div>
+      <p id = loadStatus>Fetching Thunder Warrior Data</p>
+     <span id = returnButton onclick = returnFromGame()>Return To The Menu</span>
+    </div>
+    <canvas id="unity-canvas"></canvas>
+    <canvas id = "UICanvas"></canvas>
+    <div id = deathScreen>
+      <img id = deathRedBorder src = https://genesis.thunderwarrior.org/gameImage/redBorder>
+      <div id = deathOverlay class = overlay>
+        <p class = "overlayTitle deathText">
+          You have been defeated by <span class = killerName></span>
+          <br>
+          Using the <span id = killerGun></span>
+          <br>
+          <br>
+        </p>
+        <div id = deathWeaponHolder class = overlayImageHolder>
+          <img id = deathWeapon class = overlayImage>
+        </div>
+        <p id = deathText class = deathText>
+          <br>
+          <span class = ownName></span> has been lost to the war. The <span class = otherAffiliation></span> proved to be a strong fighting force the <span class = affiliation></span> and <span class = killerName></span> defeated one of their most prestigous generals, <span class = ownName></span>. May they live on in our hearts as the <span class = affiliation></span> continues to fight back in other areas. The war is far from over.
+          <br>
+          <br>
+          Press <img class = textButton src = "https://genesis.thunderwarrior.org/gameImage/enterbutton"> to return to the Game Menu or
+          <br>
+          press <img class = textButton src = "https://genesis.thunderwarrior.org/gameImage/pIcon"> to join a new battle and play again.
+          <br>
+          <br>
+          You're rewards will be totaled and automatically sent to you to be collected once the match ends.
+          <br>
+          <br>
+          You can also stay and keep watching to see how the match turns out.
+        </p>
+      </div>
+    </div>
+    <div id = winOverlay class = overlay>
+      <p class = "overlayTitle deathText">
+        The <span class = winAffiliation></span> has won!
+        <br>
+        The <span class = loseAffiliation></span> has been defeated!
+        <br>
+        <br>
+      </p>
+      <div class = overlayImageHolder>
+        <img id = winImage class = overlayImage>
+      </div>
+      <p id = deathText class = deathText>
+        <br>
+        Even with their vast efforts, the <span class = "loseAffiliation"></span>'s struggle for dominance ended in failure. The <span class = winAffiliation></span> was too strong for the <span class = loseAffiliation></span>'s futile efforts and managed to defeat all of their soldierse. This batttle may be lost, but the war is far from over. The  <span class = loseAffiliation></span> refuses to give up and will fight again.
+        <br>
+        <br>
+        Press <img class = textButton src = "https://genesis.thunderwarrior.org/gameImage/enterbutton"> to return to the Game Menu or
+        <br>
+        press <img class = textButton src = "https://genesis.thunderwarrior.org/gameImage/pIcon"> to join a new battle and play again.
+        <br>
+        <br>
+        You're rewards will now be totaled and automatically sent to you to be collected.
+        <br>
+        <br>
+        This match will soon close. Hop into the next one and keep fighting for the <span class = affiliation></span>!
+      </p>
+    </div>
+    <form id = startForm method = post>
+      <input type = hidden name = signUpOrIn value = enterGame>
+    </form>
+    <script src = "/clientWebsocket"></script>
+    <script>
+
+var ws;
+var redirected = false;
+var signOutOther = false;
+var pageLocation = "https://thunderwarrior.org";
+var options;
+var user;
+var unityInstance;
+var room;
+var username;
+var lastInput;
+var UICanvas;
+var c;
+var screenW;
+var screenH;
+var gun;
+var abilities = [];
+var hp;
+var stamina;
+var thaum;
+var visibleUI = false;
+var af;
+var alive = true;
+var over = false;
+var solo = false;
+var qualityZoom;
+var recticleSize = 0.5;
+var gameData;
+var nextGame;
+var rejoin;
+window.onload = () => run();
+function run() {
+  gameData = JSON.parse(sessionStorage.getItem("gameData"));
+  if(gameData == undefined || gameData == "") totalRedirect(undefined, "https://genesis.thunderwarrior.org");
+  rejoin = sessionStorage.getItem("rejoin");
+  nextGame = sessionStorage.getItem("nextGame");
+  username = sessionStorage.getItem('username') || localStorage.getItem('username') || '';
+  password = sessionStorage.getItem('password') || localStorage.getItem('password') || '';
+  pageLocation = localStorage.getItem("pageLocation") || pageLocation;
+  sessionStorage.removeItem("gameData");
+  sessionStorage.removeItem("nextGame");
+  sessionStorage.removeItem("rejoin");
+  if(username == "" || username == undefined || password == "" || password == undefined) {
+    totalRedirect('noAccountFound');
+  } else {
+    createWebSocket("gamePlay", {gameData: gameData, rejoin: rejoin, nextGame: nextGame});
+  }
+  setEvents();
+}
+function die(killerName, weapon) {
+  setClassText("ownName", username);
+  setClassText("killerName", killerName);
+  setAffiliationText();
+  alive = false;
+  document.getElementById("deathWeaponHolder").style.borderColor = weapon.rarity ? getRarityColor(weapon.rarity) : "#000000";
+  document.getElementById("deathWeapon").src = "https://genesis.thunderwarrior.org/image/" + weapon.src;
+  document.getElementById("killerGun").innerText = weapon.name;
+  document.getElementById("deathScreen").style.visibility = "visible";
+}
+function setAffiliationText() {
+  setClassText("affiliation", af);
+  setClassText("otherAffiliation", getOtherAf(af));
+}
+function getRarityColor(rarity) {
+    if(rarity == "Insane") {
+        return "#FF0000";
+    } else if(rarity == "Legendary") {
+        return "#FFCC43";
+    } else if(rarity == "Epic") {
+        return "#8F09F3";
+    } else if(rarity == "Rare") {
+        return "#005DAE";
+    } else if(rarity == "Uncommon") {
+        return "#007100";
+    } else if(rarity == "Common"){
+        return "#ffffff";
+    } else {
+        return "#000000";
+    }
+}
+function setEvents() {
+    document.onkeydown = (event) => {
+    if(event.key == "f" || event.key == "F") {
+      try {
+        document.documentElement.requestFullscreen();
+        canvas.requestPointerLock();
+      } catch(err) {
+        console.error("FULLSCREEN ERROR - failed to enter full screen and lock pointer:",err);
+      }
+    } else if(event.key == "Enter") {
+      if(!alive || over || solo) {
+        location.replace("https://genesis.thunderwarrior.org");
+      }
+    } else if(event.key == "p" || event.key == "P") {
+      if(!alive || over) {
+        joinGame(gameData, nextGame);
+      }
+    }
+  }
+}
+function loadAll(theUser, theOptions) {
+  options = theOptions;
+  user = theUser
+  document.getElementById("loadStatus").innerText = "Matchmaking to find the perfect game";
+  document.getElementById("returnButton").style.display = "flex";
+}
+
+function loadGame(game) {
+  var loaderUrl = "/unity/unity.loader.js";
+  var config = {
+    dataUrl: "/unity/unity.data",
+    frameworkUrl: "/unity/unity.framework.js",
+    codeUrl: "/unity/unity.wasm",
+    streamingAssetsUrl: "StreamingAssets",
+    companyName: "Thunder Warrior Gaming",
+    productName: "Thunder Warrior Genesis",
+    productVersion: "3.5495.9501.53",
+  };
+  var loaded = 0;
+  var timesLoaded = 0;
+  var canvas = document.querySelector("#unity-canvas");
+  var script = document.createElement("script");
+  UICanvas = document.querySelector("#UICanvas");
+  c = UICanvas.getContext("2d");
+  canvas.style.width = UICanvas.style.width = "100vw";
+  canvas.style.height = UICanvas.style.height = "100vh";
+  script.src = loaderUrl;
+  document.getElementById("returnButton").style.display = "none";
+  document.getElementById("loadStatus").innerText = "Downloading Game";
+  script.onload = () => {
+    createUnityInstance(canvas, config, (progress) => {
+      if(progress ==0.9) {
+        document.getElementById("loadStatus").innerText = "Loading Game 100%";
+      } else {
+        timesLoaded ++;
+        loaded = Math.min(Math.log(timesLoaded) / Math.log(1.1), 100);
+        document.getElementById("loadStatus").innerText = "Loading Game  " + Math.round(loaded * 100) / 100 + "%";
+      }
+    }).then((unityInstance) => {
+      document.onclick = () => {
+          canvas.requestPointerLock();
+      };
+      doneLoading(unityInstance, game);
+    }).catch((message) => {
+      console.log(message);
+    });
+  };
+  document.body.appendChild(script);
+}
+function doneLoading(theUnityInstance, game) {
+  unityInstance = theUnityInstance;
+  setOptions();
+  resizeCanvas();
+  loadTroopers(unityInstance, game.troopers);
+  buildObstacles(unityInstance, game.map.obstacles);
+  hideLoadingScreen();
+  send("ready for game");
+  document.getElementById("loadStatus").innerText = "Game Loaded - Waiting for Other Players";
+}
+function setOptions() {
+  if(options.fps != undefined && options.fps != 60) unityInstance.SendMessage("Controller", "setFPS", options.fps);
+  if(options.gameQuality != undefined ) qualityZoom = options.gameQuality;
+  else qualityZoom = 4;  
+}
+function loadTroopers(unityInstance, troopers) {
+  for(var i = 0; i < troopers.length; i ++) {
+    unityInstance.SendMessage("Controller", "buildTrooper", JSON.stringify(troopers[i]));
+  }
+  solo = troopers.length < 2;
+}
+function buildObstacles(unityInstance, obstacles) {
+  for(var i = 0; i < obstacles.length; i ++) {
+    if(obstacles[i].collisionType == "box") {
+      unityInstance.SendMessage("Controller", "buildCrate", JSON.stringify(obstacles[i]));
+    }
+  }
+}
+
+function recieveMessage(msg) {
+  if(msg.type == "start match") {
+    createGame(msg.text);
+  } else if(msg.type == "create game") {
+    startMatch();
+  } else if(msg.type == "update") {
+    update(msg.text);
+  } else {
+    console.error("Message Of Unknowsn Type: ERROR CODE 950 041 - ", msg, ' - ', msg.type);
+  }
+}
+function update(data) {
+  if(unityInstance == undefined) return;
+  updateLocalData(data.troopers);
+  for(var i = 0; i < data.troopers.length; i ++) {
+    setUnityColors(data.troopers[i]);
+    unityInstance.SendMessage("Controller", "updateTrooper", JSON.stringify(data.troopers[i].unity));
+      for(var e = 0; e < data.troopers[i].visualizations.length; e ++) {
+        if(af == data.troopers[i].visualizations[e].af) data.troopers[i].visualizations[e].af = "ally"
+        else data.troopers[i].visualizations[e].af = "enemy";
+        unityInstance.SendMessage("Controller", "updateVisualization", JSON.stringify(data.troopers[i].visualizations[e]));
+      }
+  }
+  for(var i = 0; i < data.projectiles.length; i ++) {
+    unityInstance.SendMessage("Controller", "updateProjectiles", JSON.stringify(data.projectiles[i]));
+  }
+
+  unityInstance.SendMessage("Controller", "finishGameObjects");
+}
+function createGame(game) {
+  room = game.roomName;
+  nextGame = game.name;
+  for(var i = 0; i < game.troopers.length; i ++) {
+    game.troopers[i].name = username;
+    game.troopers[i].gun = game.troopers[i].equipment.rangedWeapon.type;
+    game.troopers[i].saber = game.troopers[i].equipment.meleeWeapon.type;
+    game.troopers[i].helmet = game.troopers[i].equipment.helmet.type;
+    game.troopers[i].torso = game.troopers[i].equipment.torso.type;
+    game.troopers[i].legs = game.troopers[i].equipment.legs.type;
+    game.troopers[i].leftArm = game.troopers[i].equipment.leftArm.type;
+    game.troopers[i].rightArm = game.troopers[i].equipment.rightArm.type;
+    if(game.troopers[i].username == username) {
+      af = game.troopers[i].af;
+    }
+  }
+  for(var i = 0; i < game.troopers.length; i ++) {
+    game.troopers[i].mainAf = af;
+  }
+  loadAbilityImages(game.troopers);
+  loadGame(game);
+}
+function loadAbilityImages(troopers) {
+  let abilitySrcs = ["leftMoveBasic", "rightMoveBasic", "fowardsMoveBasic", "backMoveBasic", "leftRotateBasic", "rightRotateBasic", "attackBasic"];
+  for(var i = 0; i < troopers.length; i ++) {
+    let abilityData = troopers[i].stamina.game.concat(troopers[i].thaum.game);
+    for(var e = 0; e < abilityData.length; e ++) {
+      if(abilityData[e] != undefined && abilityData[e].name != "locked") abilitySrcs.push(abilityData[e].refrence);
+    }
+  }
+  for(var i = 0; i < abilitySrcs.length; i ++) {
+    let img = document.createElement("IMG");
+    img.src = "https://genesis.thunderwarrior.org/image/" + abilitySrcs[i] + "Ability";
+    img.id = abilitySrcs[i];
+    img.style.display = "none";
+    document.body.appendChild(img);
+  }
+}
+function startMatch() {
+  unityInstance.SendMessage("Controller", "startGame");
+  window.requestAnimationFrame(drawUI);
+}
+function resizeCanvas() {
+  if(UICanvas == undefined) return;
+  let width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+  let height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+  UICanvas.width = width * qualityZoom;
+  UICanvas.style.width = width + "px";
+  UICanvas.height = height * qualityZoom;
+  UICanvas.style.height = height + "px";
+}
+function setUnityColors(trooper) {
+  let color;
+  if(trooper.af == af) {
+    color = getColorInGradient(getHPColors(), trooper.hp.current / trooper.hp.max);
+    trooper.unity.hpR = color.r;
+    trooper.unity.hpG = color.g;
+    trooper.unity.hpB = color.b;
+  } else {
+    let colors = [
+      {mark: 0, r: 150, g: 10, b: 0},
+      {mark: 0.4, r: 215, g: 10, b: 0},
+      {mark: 0.7, r: 255, g: 0, b: 0},
+      {mark: 1, r: 255, g: 0, b: 0},
+    ]
+    color = getColorInGradient(colors, trooper.hp.current / trooper.hp.max);
+    trooper.unity.hpR = color.r;
+    trooper.unity.hpG = color.g;
+    trooper.unity.hpB = color.b;
+  }
+}
+function updateLocalData(troopers) {
+  let dead = false;
+  let UIName;
+  let weapon;
+  for(var trooper of troopers) {
+    if(trooper.unity.name == username) {
+      checkWin(trooper.unity.winner);
+      if(trooper.unity.alive == true) {
+        if(trooper.unity.name == trooper.UIName) {
+          setTrooperUI(trooper);
+          return;
+        } else {
+          UIName = trooper.UIName;
+        }
+      } else {
+        dead = true;
+        UIName = trooper.unity.killer;
+        weapon = trooper.unity.killerWeapon;
+        break;
+      }
+    }
+  }
+  for(var trooper of troopers) {
+    if(trooper.unity.name == UIName) {
+      setTrooperUI(trooper);
+      break;
+    }
+  }
+  if(dead && alive) die(UIName, weapon);
+}
+function setTrooperUI(trooper) {
+  if(trooper.gun.active) {
+    gun = trooper.gun;
+  } else {
+    gun = trooper.saber;
+  }
+  hp = trooper.hp;
+  stamina = trooper.stamina;
+  thaum = trooper.thaum;
+  abilities = trooper.abilities;
+}
+function getOtherAf(afOrig) {
+  return afOrig == "Rebellion" ? "Empire" : "Rebellion";
+}
+function checkWin(winner) {
+  if(winner != undefined && !over) {
+    if(alive) setAffiliationText();
+    let loser = getOtherAf(winner);
+    over = true;
+    setClassText("winAffiliation", winner);
+    setClassText("loseAffiliation", loser);
+    document.getElementById("winImage").src = "https://genesis.thunderwarrior.org/gameImage/" + winner;
+    document.getElementById("winOverlay").style.visibility = "visible";
+  }
+}
+function setClassText(className, text) {
+  let classText = document.getElementsByClassName(className);
+  for(var i = 0; i < classText.length; i ++) {
+    classText[i].innerText = text;
+  }
+
+}//  overHeatOpacity = getOpacity(gun.tracks.cooled, gun.tracks.overheated, 1, Math.max(1, gun.heat.max + gun.heat.cool.max), 3);
+//  let opacity = getOpacity(ability.tracks.increased, ability.tracks.counting, 1, 5, 3);
+function getOpacity(rest, active, fadeIn, stayAfter, fadeOut) {
+    if(rest <= stayAfter) {
+      return active == 0 ? 1 : Math.min(1, active / fadeIn);
+    } else {
+      return Math.max(0, (stayAfter + fadeOut - rest) / fadeOut);
+    }
+}
+function drawUI() {
+  try {
+    c.clearRect(0, 0, UICanvas.width, UICanvas.height);
+    if(over) return;
+    drawWeaponHeat();
+    drawAbilities();
+    drawActions();
+  } catch(err) {
+    console.error("err", err)
+  }
+  requestAnimationFrame(drawUI);
+}
+function drawActions() {
+  if(abilities.length > 11) {
+    let actionLength = Math.floor(abilities.length / 2);
+    drawActionSet(abilities.slice(0, actionLength + 1));
+    drawActionSet(abilities.slice(actionLength + 1), true);
+  } else {
+    drawActionSet(abilities);
+  }
+}
+function drawActionSet(actions, raise = false) {
+  let canvasWidth = getCanvasWidth();
+  for(var i = 0; i < actions.length; i ++) {
+    let dist = canvasWidth * 0.055;
+    let size = canvasWidth * 0.05;
+    let color;
+    let degrees = 0;
+    let bar = 0;
+    let barReverse = false;
+    let count = actions[i].count;
+    let borderColor;
+    if(actions[i].activatable == true) {
+      borderColor = "#000060";
+    } else if(actions[i].activatable == false) {
+      borderColor = "#900000";
+    } else {
+      borderColor = "#333333";
+    }
+    if(actions[i].state == "basic") {
+      color = "#777777";
+      count = "";
+    } else if(actions[i].state == "activating") {
+      color = "#005555";
+      barReverse = true;
+      bar = actions[i].count / actions[i].activationTime;
+    } else if(actions[i].state == "active") {
+      if(actions[i].duration == "") {
+        count = "";
+      }
+      degrees = actions[i].count / actions[i].duration;
+      color = "#000074";
+    } else if(actions[i].state == "cooldown") {
+      bar = actions[i].count / actions[i].cooldown;
+      color = "#740000";
+    } else {
+      count = "";
+      color = "#007400";
+    }
+    let x = - (dist * (actions.length) / 2) + dist * (i) + size / 2;
+    let y = UICanvas.height - canvasWidth / 30 - 1.75 * size;
+    if(raise) y -= dist;
+    drawSquareImg(UICanvas.width / 2 + x, y, size, borderColor, color, actions[i].src, degrees, bar, barReverse, actions[i].key, count);
+  }
+}
+function drawSquareImg(x, y, size, color1, color2, src, degrees, bar, barReverse, key, timer) {
+  let ism = 0.2; //imageSmallenation
+  c.globalAlpha = 1;
+  c.beginPath();
+  c.lineWidth = size / 25;
+  c.strokeStyle = color1;
+  c.fillStyle = color2;
+  c.rect(x, y, size, size);
+  c.fillRect(x + size * 0.0125, y + size * 0.0125, size * 0.975, size * 0.975);
+  c.stroke();
+  c.drawImage(document.getElementById(src), x + size * ism, y +  size * (ism * 1.25), size * (1 - ism * 2), size * (1 - ism * 2))
+  c.closePath();
+  if(degrees > 0) {
+    degrees = 2 * Math.PI - degrees * 2 * Math.PI;
+    cutOutSquare(x, y, size);
+    c.moveTo(x + size / 2, y + size / 2);
+    c.arc(x + size / 2, y + size / 2, size, degrees + Math.PI * 3 / 2,  Math.PI * 3 / 2);
+    c.lineTo(x + size / 2, y + size / 2);
+    c.fill();
+    c.restore();
+  } else if(bar > 0) {
+    let height = size * bar;
+    cutOutSquare(x, y, size);
+    if(barReverse) c.rect(x, y, size, height);
+    else c.rect(x, y + size - height, size, height);
+    c.fill();
+    c.restore();
+  }
+  c.font = size / 5 + "px serif";
+  c.fillStyle = "#ffffff";
+  c.textAlign = "left";
+  c.fillText(key, x + size / 12, y + size / 4.5);
+  c.textAlign = "right";
+  if(timer != "") timer = getAbilityText(timer);
+  if(timer != 0) c.fillText(timer, x + size * 11 /12, y + size / 4.5);
+}
+function cutOutSquare(x, y, size) {
+  c.beginPath();
+  c.save();
+  c.rect(x, y, size, size);
+  c.clip();
+  c.globalAlpha = 0.5;
+  c.beginPath();
+  c.fillStyle = "#000000";
+}
+function drawAbilities() {
+  drawAbility(hp, getHPColors(), getColorFluctuation([
+    {r: 0, g: 255, b: 255},
+    {r: 0, g: 220, b: 255},
+  ], 0.15), 0);
+
+  drawAbility(stamina, [
+    {mark: 0, r: 99, g: 83, b: 0},// 99, 83, 0
+    {mark: 0.4, r: 222, g: 204, b: 0},// 222, 204, 0
+    {mark: 0.7, r: 245, g: 233, b: 0}, // 245, 233, 0
+    {mark: 1, r: 245, g: 233, b: 0},// 245, 233, 0
+  ], getColorFluctuation([
+    {r: 255, g: 255, b: 0},
+    {r: 245, g: 233, b: 0},
+  ], 0.15), - UICanvas.width  / 4);
+  
+  drawAbility(thaum, [
+    {mark: 0, r: 56, g: 46, b: 71},// 99, 83, 0
+    {mark: 0.4, r: 97, g: 60, b: 158},// 222, 204, 0
+    {mark: 0.7, r: 81, g: 20, b: 184}, // 245, 233, 0
+    {mark: 1, r: 81, g: 20, b: 184},// 245, 233, 0
+  ], getColorFluctuation([
+    {r: 175, g: 0, b: 255},
+    {r: 150, g: 0, b: 220},
+  ], 0.15), UICanvas.width  / 4);
+}
+function getColorFluctuation(colors, decrease) {
+  let colorFluctuation = [];
+  let colIndex = 0;
+  for(var i = 1; i >= 0; i -= decrease) {
+    let color = colors[colIndex % colors.length];
+    colorFluctuation.unshift({
+      mark: i, r: color.r, g: color.g, b: color.b
+    });
+    colIndex ++;
+  }
+  if(colorFluctuation[0].mark != 0) {
+      colorFluctuation.unshift({
+      mark: 0, r: colorFluctuation[0].r, g: colorFluctuation[0].g, b: colorFluctuation[0].b
+    });
+  }
+  return colorFluctuation;
+}
+function getCanvasWidth() {
+  return Math.max(1500, UICanvas.width )
+}
+function drawAbility(ability, colors, waitColors, xAddition) {
+  if(ability == undefined) return;
+  let canvasWidth = getCanvasWidth();
+	let width = canvasWidth / 5;
+  let height = canvasWidth / 40;
+  let waitHeight = height / 3;
+  let distFromBottom = canvasWidth / 20;
+  let waitDistFromBottom = distFromBottom * 0.9 - height - waitHeight;
+  let y = UICanvas.height  - distFromBottom;
+  let waitY = UICanvas.height  - waitDistFromBottom;
+  let x = (UICanvas.width  - width) / 2 + xAddition;
+//  let current = Math.random() * ability.max;
+  let fraction = ability.current / ability.max;
+  let waitFraction = ability.count / ability.time;
+  let borderWidth = 2;
+  let color = getColorInGradient(colors, fraction);
+  let waitColor = getColorInGradient(waitColors, waitFraction);
+  let opacity = getOpacity(ability.tracks.increased, ability.tracks.counting, 1, 5, 3);
+  let waitOpacity = getOpacity(ability.tracks.increasing, ability.tracks.counting, 1, 0.5, 2);
+  c.lineCap = "round";
+  if(opacity > 0) {
+    drawBar(x, y, width, height, color, opacity, fraction);
+    drawAbilityText(ability, canvasWidth, x + width / 2, y + height, opacity);
+  }
+  if(waitOpacity > 0) {
+    drawBar(x, waitY, width, waitHeight, waitColor, waitOpacity, waitFraction);
+  }
+}
+function drawAbilityText(ability, size, x, y, opacity) {
+  c.globalAlpha = opacity
+  c.font = size / 45 + "px serif";
+  c.fillStyle = "#000000";
+  c.textAlign = "center";
+  c.fillText(getAbilityText(ability.current) + " / " + getAbilityText(ability.max), x, y - size / 45 / 4);
+}
+
+function drawBar(x, y, width, height, colorUnformatted, opacity, fraction) {
+  let color = colorUnformatted.r + "," + colorUnformatted.g + "," + colorUnformatted.b;
+  let radius = height;
+  let radiME = radius / 2;
+  c.save();
+  c.strokeStyle = "#ffffff";
+  c.globalAlpha = opacity;
+  c.lineWidth = height / 10;
+  c.beginPath();
+  c.moveTo(x + radiME, y);
+  c.lineTo(x + width - radius, y);
+  c.arcTo(x + width, y, x + width, y + radiME, radiME);
+  c.arcTo(x + width, y + radiME * 2, x + width - radiME, y + radiME * 2, radiME);
+  c.lineTo(x + radius, y + radius);
+  c.arcTo( x, y + radiME * 2, x, y + radiME, radiME);
+  c.arcTo( x, y, x + radiME, y, radiME);
+  c.stroke();
+  c.clip();
+  c.beginPath();
+  c.globalAlpha = opacity / 2;
+  c.fillStyle = "#000000"
+  c.rect(x, y, width, height);
+  c.fill();
+  c.beginPath();
+  c.globalAlpha = opacity;
+  c.fillStyle = "rgb(" + color + ")";
+  c.rect(x, y, width * fraction, height);
+  c.fill();
+  c.restore();
+}
+
+function getAbilityText(num) {
+  if(num < 10) {
+    return Math.round(num * 10) / 10;
+  } else {
+    return Math.round(num);
+  }
+}
+function getHPColors(fraction) {
+  return [
+    {mark: 0, r: 0, g: 60, b: 100},
+    {mark: 0.4, r: 0, g: 200, b: 255},
+    {mark: 0.7, r: 0, g: 230, b: 255},
+    {mark: 1, r: 0, g: 230, b: 255},
+
+  ]
+}
+function drawWeaponHeat() {
+  let opacity;
+  let overHeatOpacity;
+  if(gun == undefined) return;
+  opacity = getOpacity(gun.tracks.idle, gun.tracks.active, gun.tracks.fadeIn, gun.tracks.stayAfter, gun.tracks.fadeOut);
+  if(!visibleUI && opacity == 0) return
+  overHeatOpacity = getOpacity(gun.tracks.cooled, gun.tracks.overheated, 1, gun.saber ? 1: Math.max(1, gun.heat.max + gun.heat.cool.max), 3);
+  visibleUI = opacity != 0;
+  c.lineCap = "round";
+  c.lineWidth = 12 * recticleSize * qualityZoom;
+  arcBarGradient([
+    {mark: 0, r: 230, g: 230, b: 230},
+    {mark: 0.5, r: 210, g: 210, b: 210},
+    {mark: 1, r: 150, g: 150, b: 150} ],
+  6.1, 8.65, gun.fs, opacity, true);
+  console.log("op", opacity, gun.heat);
+  arcBarGradient([
+    {mark: 0, r: 255, g: 255, b: 255},
+    {mark: 0.4, r: 255, g: 255, b: 255},
+    {mark: 0.6, r: 255, g: 205, b: 205},
+    {mark: 0.8, r: 255, g: 130, b: 130},
+    {mark: 1, r: 255, g: 0, b: 0} ],
+  0.6, 5.4, gun.heat, opacity);
+  arcBarGradient([
+    {mark: 0, r: 200, g: 200, b: 255},
+    {mark: 0.3, r: 223, g: 179, b: 245},
+    {mark: 1, r: 255, g: 59, b: 121} ],
+  9.35, 11.9, gun.heat.cool, opacity);
+  if(overHeatOpacity > 0){
+    if(gun.saber) {
+      arcBarGradient([
+        {mark: 0, r: 148, g: 20, b: 3},
+        {mark: 0.4, r: 255, g: 200, b: 161},
+        {mark: 1, r: 255, g: 213, b: 161}],
+      0.85, 5.15, gun.heat.overheat, overHeatOpacity, false, 5/3);
+    } else {
+      arcBarGradient([
+        {mark: 0, r: 255, g: 213, b: 161},
+        {mark: 0.6, r: 255, g: 200, b: 161},
+        {mark: 1, r: 148, g: 20, b: 3}],
+      0.85, 5.15, gun.heat.overheat, overHeatOpacity, false, 5/3);
+    }
+  }
+}
+  
+  function arcBarGradient(colors, start, end, fractionOb, opacity, reverse = false, radiusMultiplier = 1) {
+    let fraction = fractionOb.current / fractionOb.max;
+    let radius = 60 * radiusMultiplier;
+    let color = getColorInGradient(colors, fraction);
+    arcBar("0,0,0", color.r + "," + color.g + "," + color.b, start, end, fraction, opacity, reverse, radius);
+  }
+  function getColorInGradient(colors, fraction) {
+    for(var i = 0; i < colors.length; i ++) {
+      if(fraction <= colors[i].mark) {
+        let first = colors[Math.max(i - 1, 0)];
+        let second = colors[Math.max(i, 1)];
+        return {
+          r: getColor(first, second, "r", fraction),
+          g: getColor(first, second, "g", fraction),
+          b: getColor(first, second, "b", fraction)
+        }
+      }
+    }
+  }
+  function getColor(color1, color2, type, fraction) {
+  	let color1Ammount = color2.mark - fraction;
+    let color2Ammount = fraction - color1.mark;
+    
+    return color1[type] * color1Ammount / (color1Ammount + color2Ammount) + color2[type] * color2Ammount / (color1Ammount + color2Ammount);
+  }
+  function arcBar(colorBottom, colorTop, start, end, fraction, opacity, reverse, radius) {
+  	let startAddition = endAddition = (start - end) * (1- fraction);
+    if(reverse) startAddition = 0; else endAddition = 0;
+    c.globalAlpha = opacity / 2;
+    arc(colorBottom, start, end, radius);
+    c.globalAlpha = opacity;
+    if(fraction > 0.01) arc(colorTop, start - startAddition, end + endAddition, radius);
+  }
+  function arc(color, start, end, radius) {
+    c.beginPath();
+    c.strokeStyle = "rgb(" + color + ")";
+    c.arc((UICanvas.width) / 2, (UICanvas.height) / 2, radius * recticleSize * qualityZoom, start * Math.PI / 6, end * Math.PI / 6);
+    c.stroke();
+  }
+function sendInputAndRoom(input) {
+  let inputString = JSON.stringify(input);
+  if(lastInput == inputString) return;
+  send("trooper input", {room: room, input: input, username: username});
+  lastInput = inputString;
+}
+function returnFromGame() {
+  totalRedirect(undefined, "https://genesis.thunderwarrior.org");
+}
+      </script>
+  </body>
+</html>

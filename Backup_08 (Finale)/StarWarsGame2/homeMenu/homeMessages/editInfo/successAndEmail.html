@@ -1,0 +1,7 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <script>
+            setMessage(true, true, 'informationMessage', `You have succesfully changed your account's information, including your email! You shall recieve an Email to ${sessionStorage.getItem('tempEmail') || localStorage.getItem('email') || 'your email'} containing a Confirmation Code shortly. Use the Confirm Tab to enter your Code or to Send a New Code if you do not recieve one within the next couple of minutes. Make Sure to Check your Junk and Spam Folders.`, function() { updateAccount() });        </script>
+    </body>
+</html>

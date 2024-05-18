@@ -1,0 +1,4 @@
+body { padding: 0; margin: 0; overflow: hidden}
+#unity-container { position: absolute }
+#unity-container.unity-desktop { left: 50%; top: 50%; transform: translate(-50%, -50%) }
+#unity-canvas { background: #231F20 }
